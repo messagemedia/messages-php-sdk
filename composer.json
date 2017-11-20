@@ -1,7 +1,8 @@
 {
-    "name": "apimatic/messages",
+    "name": "messagemedia/messages",
     "type": "library",
-    "description": "TODO: Add a description",
+    "description": "The MessageMedia Messages API provides a number of endpoints for building powerful two-way messaging applications.",
+    "version": "1.0.0",
     "keywords": ["Messages","API","SDK"],
     "homepage": "https://apimatic.io",
     "license": "MIT",
@@ -28,7 +29,7 @@
     },
     "autoload": {
         "psr-4": {
-            "MessagesLib\\": "src/"
+            "MessageMediaMessagesLib\\": "src/"
         }
     }
 }

@@ -1,6 +1,6 @@
 # Getting started
 
-TODO: Add a description
+The MessageMedia Messages API provides a number of endpoints for building powerful two-way messaging applications.
 
 ## How to Build
 
@@ -12,7 +12,7 @@ Open command prompt and type ```composer --version```. This should display the c
 * Using command line, navigate to the directory containing the generated files (including ```composer.json```) for the SDK. 
 * Run the command ```composer install```. This should install all the required dependencies and create the ```vendor``` directory in your project directory.
 
-![Building SDK - Step 1](https://apidocs.io/illustration/php?step=installDependencies&workspaceFolder=Messages-PHP)
+![Building SDK - Step 1](https://apidocs.io/illustration/php?step=installDependencies&workspaceFolder=MessageMediaMessages-PHP)
 
 ### [For Windows Users Only] Configuring CURL Certificate Path in php.ini
 
@@ -30,35 +30,35 @@ CURL used to include a list of accepted CAs, but no longer bundles ANY CA certs.
 
 ## How to Use
 
-The following section explains how to use the Messages library in a new project.
+The following section explains how to use the MessageMediaMessages library in a new project.
 
 ### 1. Open Project in an IDE
 
 Open an IDE for PHP like PhpStorm. The basic workflow presented here is also applicable if you prefer using a different editor or IDE.
 
-![Open project in PHPStorm - Step 1](https://apidocs.io/illustration/php?step=openIDE&workspaceFolder=Messages-PHP)
+![Open project in PHPStorm - Step 1](https://apidocs.io/illustration/php?step=openIDE&workspaceFolder=MessageMediaMessages-PHP)
 
 Click on ```Open``` in PhpStorm to browse to your generated SDK directory and then click ```OK```.
 
-![Open project in PHPStorm - Step 2](https://apidocs.io/illustration/php?step=openProject0&workspaceFolder=Messages-PHP)     
+![Open project in PHPStorm - Step 2](https://apidocs.io/illustration/php?step=openProject0&workspaceFolder=MessageMediaMessages-PHP)     
 
 ### 2. Add a new Test Project
 
 Create a new directory by right clicking on the solution name as shown below:
 
-![Add a new project in PHPStorm - Step 1](https://apidocs.io/illustration/php?step=createDirectory&workspaceFolder=Messages-PHP)
+![Add a new project in PHPStorm - Step 1](https://apidocs.io/illustration/php?step=createDirectory&workspaceFolder=MessageMediaMessages-PHP)
 
 Name the directory as "test"
 
-![Add a new project in PHPStorm - Step 2](https://apidocs.io/illustration/php?step=nameDirectory&workspaceFolder=Messages-PHP)
+![Add a new project in PHPStorm - Step 2](https://apidocs.io/illustration/php?step=nameDirectory&workspaceFolder=MessageMediaMessages-PHP)
    
 Add a PHP file to this project
 
-![Add a new project in PHPStorm - Step 3](https://apidocs.io/illustration/php?step=createFile&workspaceFolder=Messages-PHP)
+![Add a new project in PHPStorm - Step 3](https://apidocs.io/illustration/php?step=createFile&workspaceFolder=MessageMediaMessages-PHP)
 
 Name it "testSDK"
 
-![Add a new project in PHPStorm - Step 4](https://apidocs.io/illustration/php?step=nameFile&workspaceFolder=Messages-PHP)
+![Add a new project in PHPStorm - Step 4](https://apidocs.io/illustration/php?step=nameFile&workspaceFolder=MessageMediaMessages-PHP)
 
 Depending on your project setup, you might need to include composer's autoloader in your PHP code to enable auto loading of classes.
 
@@ -68,7 +68,7 @@ require_once "../vendor/autoload.php";
 
 It is important that the path inside require_once correctly points to the file ```autoload.php``` inside the vendor directory created during dependency installations.
 
-![Add a new project in PHPStorm - Step 4](https://apidocs.io/illustration/php?step=projectFiles&workspaceFolder=Messages-PHP)
+![Add a new project in PHPStorm - Step 4](https://apidocs.io/illustration/php?step=projectFiles&workspaceFolder=MessageMediaMessages-PHP)
 
 After this you can add code to initialize the client library and acquire the instance of a Controller class. Sample code to initialize the client library and using controller methods is given in the subsequent sections.
 
@@ -78,23 +78,23 @@ To run your project you must set the Interpreter for your project. Interpreter i
 
 Open ```Settings``` from ```File``` menu.
 
-![Run Test Project - Step 1](https://apidocs.io/illustration/php?step=openSettings&workspaceFolder=Messages-PHP)
+![Run Test Project - Step 1](https://apidocs.io/illustration/php?step=openSettings&workspaceFolder=MessageMediaMessages-PHP)
 
 Select ```PHP``` from within ```Languages & Frameworks```
 
-![Run Test Project - Step 2](https://apidocs.io/illustration/php?step=setInterpreter0&workspaceFolder=Messages-PHP)
+![Run Test Project - Step 2](https://apidocs.io/illustration/php?step=setInterpreter0&workspaceFolder=MessageMediaMessages-PHP)
 
 Browse for Interpreters near the ```Interpreter``` option and choose your interpreter.
 
-![Run Test Project - Step 3](https://apidocs.io/illustration/php?step=setInterpreter1&workspaceFolder=Messages-PHP)
+![Run Test Project - Step 3](https://apidocs.io/illustration/php?step=setInterpreter1&workspaceFolder=MessageMediaMessages-PHP)
 
 Once the interpreter is selected, click ```OK```
 
-![Run Test Project - Step 4](https://apidocs.io/illustration/php?step=setInterpreter2&workspaceFolder=Messages-PHP)
+![Run Test Project - Step 4](https://apidocs.io/illustration/php?step=setInterpreter2&workspaceFolder=MessageMediaMessages-PHP)
 
 To run your project, right click on your PHP file inside your Test project and click on ```Run```
 
-![Run Test Project - Step 5](https://apidocs.io/illustration/php?step=runProject&workspaceFolder=Messages-PHP)
+![Run Test Project - Step 5](https://apidocs.io/illustration/php?step=runProject&workspaceFolder=MessageMediaMessages-PHP)
 
 ## How to Test
 
@@ -108,13 +108,23 @@ You can change the PHPUnit test configuration in the `phpunit.xml` file.
 
 ## Initialization
 
-### 
+### Authentication
+In order to setup authentication and initialization of the API client, you need the following information.
+
+| Parameter | Description |
+|-----------|-------------|
+| basicAuthUserName | The username to use with basic authentication |
+| basicAuthPassword | The password to use with basic authentication |
+
+
 
 API client can be initialized as following.
 
 ```php
+$basicAuthUserName = 'basicAuthUserName'; // The username to use with basic authentication
+$basicAuthPassword = 'basicAuthPassword'; // The password to use with basic authentication
 
-$client = new MessagesLib\MessagesClient();
+$client = new MessageMediaMessagesLib\MessageMediaMessagesClient($basicAuthUserName, $basicAuthPassword);
 ```
 
 
@@ -139,7 +149,7 @@ $messages = $client->getMessages();
 ### <a name="update_cancel_scheduled_message"></a>![Method: ](https://apidocs.io/img/method.png ".MessagesController.updateCancelScheduledMessage") updateCancelScheduledMessage
 
 > Cancel a scheduled message that has not yet been delivered.
-> A scheduled messages can be cancelled by updating the status of a message from ```scheduled```
+> A scheduled message can be cancelled by updating the status of a message from ```scheduled```
 > to ```cancelled```. This is done by submitting a PUT request to the messages endpoint using
 > the message ID as a parameter (the same endpoint used above to retrieve the status of a message).
 > The body of the request simply needs to contain a ```status``` property with the value set
@@ -212,7 +222,7 @@ $result = $messages->updateCancelScheduledMessage($messageId, $body);
 > }
 > ```
 > The status property of the response indicates the current status of the message. See the Delivery
-> Reports section of this documenation for more information on message statues.
+> Reports section of this documentation for more information on message statues.
 > *Note: If an invalid or non existent message ID parameter is specified in the request, then
 > a HTTP 404 Not Found response will be returned*
 
@@ -261,52 +271,52 @@ $result = $messages->getMessageStatus($messageId);
 > }
 > ```
 > More advanced delivery features can be specified by setting the following properties in a message:
-> - ```callback_url``` A URL can be included with each message to which webhooks will be pushed to
-> via a HTTP POST request. Webhooks will be sent if and when the status of the message changes as
-> it is processed (if the delivery report property of the request is set to ```true```) and when replies
-> are received. Specifying a callback URL is optional.
+> - ```callback_url``` A URL can be included with each message to which Webhooks will be pushed to
+>   via a HTTP POST request. Webhooks will be sent if and when the status of the message changes as
+>   it is processed (if the delivery report property of the request is set to ```true```) and when replies
+>   are received. Specifying a callback URL is optional.
 > - ```content``` The content of the message. This can be a Unicode string, up to 5,000 characters long.
-> Message content is required.
-> - ```delivery_report``` Delivery reports can be be requested with each message. If delivery reports are requested, a webhook
-> will be submitted to the ```callback_url``` property specified for the message (or to the webhooks)
-> specified for the account every time the status of the message changes as it is processed. The
-> current status of the message can also be retrieved via the Delivery Reports endpoint of the
-> Messages API. Delivery reports are optional and by default will not be requested.
+>   Message content is required.
+> - ```delivery_report``` Delivery reports can be requested with each message. If delivery reports are requested, a webhook
+>   will be submitted to the ```callback_url``` property specified for the message (or to the webhooks)
+>   specified for the account every time the status of the message changes as it is processed. The
+>   current status of the message can also be retrieved via the Delivery Reports endpoint of the
+>   Messages API. Delivery reports are optional and by default will not be requested.
 > - ```destination_number``` The destination number the message should be delivered to. This should be specified in E.164
-> international format. For information on E.164, please refer to http://en.wikipedia.org/wiki/E.164.
-> A destination number is required.
+>   international format. For information on E.164, please refer to http://en.wikipedia.org/wiki/E.164.
+>   A destination number is required.
 > - ```format``` The format specifies which format the message will be sent as, ```SMS``` (text message)
-> or ```TTS``` (text to speech). With ```TTS``` format, we will call the destination number and read out the
-> message using a computer generated voice. Specifying a format is optional, by default ```SMS``` will be used.
+>   or ```TTS``` (text to speech). With ```TTS``` format, we will call the destination number and read out the
+>   message using a computer generated voice. Specifying a format is optional, by default ```SMS``` will be used.
 > - ```source_number``` A source number may be specified for the message, this will be the number that
-> the message appears from on the handset. By default this feature is _not_ available and will be ignored
-> in the request. Please contact <support@messagemeda.com> for more information. Specifying a source
-> number is optional and a by default a source number will be assigned to the message.
+>   the message appears from on the handset. By default this feature is _not_ available and will be ignored
+>   in the request. Please contact <support@messagemeda.com> for more information. Specifying a source
+>   number is optional and a by default a source number will be assigned to the message.
 > - ```source_number_type``` If a source number is specified, the type of source number may also be
-> specified. This is recommended when using a source address type that is not an internationally
-> formatted number, available options are ```INTERNATIONAL```, ```ALPHANUMERIC``` or ```SHORTCODE```. Speciying a
-> source number type is only valid when a the ```source_number``` parameter is specified and is optional.
-> If a source number is specified and no source number type is specified, the source number type will be
-> inferred from the source number, however this may be inaccurate.
+>   specified. This is recommended when using a source address type that is not an internationally
+>   formatted number, available options are ```INTERNATIONAL```, ```ALPHANUMERIC``` or ```SHORTCODE```. Specifying a
+>   source number type is only valid when the ```source_number``` parameter is specified and is optional.
+>   If a source number is specified and no source number type is specified, the source number type will be
+>   inferred from the source number, however this may be inaccurate.
 > - ```scheduled``` A message can be scheduled for delivery in the future by setting the scheduled property.
-> The scheduled property expects a date time specified in ISO 8601 format. The scheduled time must be
-> provided in UTC and is optional. If no scheduled property is set, the message will be delivered immediately.
+>   The scheduled property expects a date time specified in ISO 8601 format. The scheduled time must be
+>   provided in UTC and is optional. If no scheduled property is set, the message will be delivered immediately.
 > - ```message_expiry_timestamp``` A message expiry timestamp can be provided to specify the latest time
-> at which the message should be delivered. If the message cannot be delivered before the specified
-> message expiry timestamp elapses, the message will be discarded. Specifying a message expiry 
-> timestamp is optional.
+>   at which the message should be delivered. If the message cannot be delivered before the specified
+>   message expiry timestamp elapses, the message will be discarded. Specifying a message expiry 
+>   timestamp is optional.
 > - ```metadata``` Metadata can be included with the message which will then be included with any delivery
-> reports or replies matched to the message. This can be used to create powerful two-way messaging
-> applications without having to store persitant data in the application. Up to 10 key / value metada data
-> pairs can be specified in a message. Each key can be up to 100 characters long, and each value up to 
-> 256 characters long. Specifiying metadata for a message is optional.
+>   reports or replies matched to the message. This can be used to create powerful two-way messaging
+>   applications without having to store persistent data in the application. Up to 10 key / value metadata data
+>   pairs can be specified in a message. Each key can be up to 100 characters long, and each value up to 
+>   256 characters long. Specifying metadata for a message is optional.
 > The response body of a successful POST request to the messages endpoint will include a ```messages```
 > property which contains a list of all messages submitted. The list of messages submitted will
 > reflect the list of messages included in the request, but each message will also contain two new
 > properties, ```message_id``` and ```status```. The returned message ID will be a 36 character UUID
 > which can be used to check the status of the message via the Get Message Status endpoint. The status
 > of the message which reflect the status of the message at submission time which will always be
-> ```queued```. See the Delivery Reports section of this documenation for more information on message
+> ```queued```. See the Delivery Reports section of this documentation for more information on message
 > statues.
 > *Note: when sending multiple messages in a request, all messages must be valid for the request to be successful.
 > If any messages in the request are invalid, no messages will be sent.*
@@ -419,7 +429,7 @@ $deliveryReports = $client->getDeliveryReports();
 > 1. Call check delivery reports endpoint
 > 2. Process each delivery report
 > 3. Confirm all processed delivery reports using the confirm delivery reports endpoint
-> *Note: It is recommended to use the webhooks feature to receive reply messages rather than
+> *Note: It is recommended to use the Webhooks feature to receive reply messages rather than
 > polling the check delivery reports endpoint.*
 
 
@@ -498,89 +508,6 @@ The singleton instance of the ``` RepliesController ``` class can be accessed fr
 $replies = $client->getReplies();
 ```
 
-### <a name="get_check_replies"></a>![Method: ](https://apidocs.io/img/method.png ".RepliesController.getCheckReplies") getCheckReplies
-
-> Check for any replies that have been received.
-> Replies are messages that have been sent from a handset in response to a message sent by an
-> application or messages that have been sent from a handset to a inbound number associated with
-> an account, known as a dedicated inbound number (contact <support@messagemedia.com> for more
-> information on dedicated inbound numbers).
-> Each request to the check replies endpoint will return any replies received that have not yet
-> been connfirmed using the confirm replies endpoint. A response from the check replies endpoint
-> will have the following structure:
-> ```json
-> {
->     "replies": [
->         {
->             "metadata": {
->                 "key1": "value1",
->                 "key2": "value2"
->             },
->             "message_id": "877c19ef-fa2e-4cec-827a-e1df9b5509f7",
->             "reply_id": "a175e797-2b54-468b-9850-41a3eab32f74",
->             "date_received": "2016-12-07T08:43:00.850Z",
->             "callback_url": "https://my.callback.url.com",
->             "destination_number": "+61491570156",
->             "source_number": "+61491570157",
->             "vendor_account_id": {
->                 "vendor_id": "MessageMedia",
->                 "account_id": "MyAccount"
->             },
->             "content": "My first reply!"
->         },
->         {
->             "metadata": {
->                 "key1": "value1",
->                 "key2": "value2"
->             },
->             "message_id": "8f2f5927-2e16-4f1c-bd43-47dbe2a77ae4",
->             "reply_id": "3d8d53d8-01d3-45dd-8cfa-4dfc81600f7f",
->             "date_received": "2016-12-07T08:43:00.850Z",
->             "callback_url": "https://my.callback.url.com",
->             "destination_number": "+61491570157",
->             "source_number": "+61491570158",
->             "vendor_account_id": {
->                 "vendor_id": "MessageMedia",
->                 "account_id": "MyAccount"
->             },
->             "content": "My second reply!"
->         }
->     ]
-> }
-> ```
-> Each reply will contain details about the reply message, as well as details of the message the reply was sent
-> in response to, including any metadata specified. Every reply will have a reply ID to be used with the
-> confirm replies endpoint.
-> *Note: The source number and destination number properties in a reply are the inverse of those
-> specified in the message the reply is in respons to. The source number of the reply message is the
-> same as the destination number of the original message, and the destination number of the reply
-> message is the same as the source number of the original message. If a source number
-> wasn't specified in the original message, then the destination number property will not be present
-> in the reply message.*
-> Subseqent requests to the check replies endpoint will return the same reply messages and a maximum
-> of 100 replies will be returned in each request. Applications should use the confirm replies endpoint
-> in the following pattern so that replies that have been processed are no longer returned in
-> subseqent check replies requests.
-> 1. Call check replies endpoint
-> 2. Process each reply message
-> 3. Confirm all processed reply messages using the confirm replies endpoint
-> *Note: It is recommended to use the webhooks feature to receieve reply messages rather than polling
-> the check replies endpoint.*
-
-
-```php
-function getCheckReplies()
-```
-
-#### Example Usage
-
-```php
-
-$result = $replies->getCheckReplies();
-
-```
-
-
 ### <a name="create_confirm_replies_as_received"></a>![Method: ](https://apidocs.io/img/method.png ".RepliesController.createConfirmRepliesAsReceived") createConfirmRepliesAsReceived
 
 > Mark a reply message as confirmed so it is no longer returned in check replies requests.
@@ -629,6 +556,89 @@ $result = $replies->createConfirmRepliesAsReceived($body);
 |------------|-------------------|
 | 400 | TODO: Add an error description |
 
+
+
+### <a name="get_check_replies"></a>![Method: ](https://apidocs.io/img/method.png ".RepliesController.getCheckReplies") getCheckReplies
+
+> Check for any replies that have been received.
+> Replies are messages that have been sent from a handset in response to a message sent by an
+> application or messages that have been sent from a handset to a inbound number associated with
+> an account, known as a dedicated inbound number (contact <support@messagemedia.com> for more
+> information on dedicated inbound numbers).
+> Each request to the check replies endpoint will return any replies received that have not yet
+> been confirmed using the confirm replies endpoint. A response from the check replies endpoint
+> will have the following structure:
+> ```json
+> {
+>     "replies": [
+>         {
+>             "metadata": {
+>                 "key1": "value1",
+>                 "key2": "value2"
+>             },
+>             "message_id": "877c19ef-fa2e-4cec-827a-e1df9b5509f7",
+>             "reply_id": "a175e797-2b54-468b-9850-41a3eab32f74",
+>             "date_received": "2016-12-07T08:43:00.850Z",
+>             "callback_url": "https://my.callback.url.com",
+>             "destination_number": "+61491570156",
+>             "source_number": "+61491570157",
+>             "vendor_account_id": {
+>                 "vendor_id": "MessageMedia",
+>                 "account_id": "MyAccount"
+>             },
+>             "content": "My first reply!"
+>         },
+>         {
+>             "metadata": {
+>                 "key1": "value1",
+>                 "key2": "value2"
+>             },
+>             "message_id": "8f2f5927-2e16-4f1c-bd43-47dbe2a77ae4",
+>             "reply_id": "3d8d53d8-01d3-45dd-8cfa-4dfc81600f7f",
+>             "date_received": "2016-12-07T08:43:00.850Z",
+>             "callback_url": "https://my.callback.url.com",
+>             "destination_number": "+61491570157",
+>             "source_number": "+61491570158",
+>             "vendor_account_id": {
+>                 "vendor_id": "MessageMedia",
+>                 "account_id": "MyAccount"
+>             },
+>             "content": "My second reply!"
+>         }
+>     ]
+> }
+> ```
+> Each reply will contain details about the reply message, as well as details of the message the reply was sent
+> in response to, including any metadata specified. Every reply will have a reply ID to be used with the
+> confirm replies endpoint.
+> *Note: The source number and destination number properties in a reply are the inverse of those
+> specified in the message the reply is in response to. The source number of the reply message is the
+> same as the destination number of the original message, and the destination number of the reply
+> message is the same as the source number of the original message. If a source number
+> wasn't specified in the original message, then the destination number property will not be present
+> in the reply message.*
+> Subsequent requests to the check replies endpoint will return the same reply messages and a maximum
+> of 100 replies will be returned in each request. Applications should use the confirm replies endpoint
+> in the following pattern so that replies that have been processed are no longer returned in
+> subsequent check replies requests.
+> 1. Call check replies endpoint
+> 2. Process each reply message
+> 3. Confirm all processed reply messages using the confirm replies endpoint
+> *Note: It is recommended to use the Webhooks feature to receive reply messages rather than polling
+> the check replies endpoint.*
+
+
+```php
+function getCheckReplies()
+```
+
+#### Example Usage
+
+```php
+
+$result = $replies->getCheckReplies();
+
+```
 
 
 [Back to List of Controllers](#list_of_controllers)
