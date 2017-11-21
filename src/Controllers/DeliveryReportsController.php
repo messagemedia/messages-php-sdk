@@ -2,7 +2,6 @@
 /*
  * MessageMediaMessages
  *
- * This file was automatically generated for MessageMedia by APIMATIC v2.0 ( https://apimatic.io ).
  */
 
 namespace MessageMediaMessagesLib\Controllers;
@@ -125,7 +124,7 @@ class DeliveryReportsController extends BaseController
 
         //prepare headers
         $_headers = array (
-            'user-agent'    => 'messagemedia-messages',
+            'user-agent'    => 'messagemedia-messages-php-sdk-1.0.0',
             'Accept'        => 'application/json'
         );
 
@@ -195,7 +194,7 @@ class DeliveryReportsController extends BaseController
 
         //prepare headers
         $_headers = array (
-            'user-agent'    => 'messagemedia-messages',
+            'user-agent'    => 'messagemedia-messages-php-sdk-1.0.0',
             'Accept'        => 'application/json',
             'content-type'  => 'application/json; charset=utf-8'
         );
