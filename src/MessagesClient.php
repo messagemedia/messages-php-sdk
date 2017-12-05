@@ -4,9 +4,9 @@
  *
  */
 
-namespace MessagesLib;
+namespace MessageMediaMessagesLib;
 
-use MessagesLib\Controllers;
+use MessageMediaMessagesLib\Controllers;
 
 /**
  * MessagesLib client class

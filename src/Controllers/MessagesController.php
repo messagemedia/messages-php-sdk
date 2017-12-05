@@ -10,7 +10,6 @@ use MessageMediaMessagesLib\APIException;
 use MessageMediaMessagesLib\APIHelper;
 use MessageMediaMessagesLib\Configuration;
 use MessageMediaMessagesLib\Models;
-use MessageMediaMessagesLib\Exceptions;
 use MessageMediaMessagesLib\Http\HttpRequest;
 use MessageMediaMessagesLib\Http\HttpResponse;
 use MessageMediaMessagesLib\Http\HttpMethod;
@@ -58,7 +57,7 @@ class MessagesController extends BaseController
      *
      * @param string $messageId TODO: type description here
      * @param Models\CancelScheduledMessageRequest $body TODO: type description here
-     * @param null $accountHeaderValue The optional Account header value
+     * @param null $accountHeaderValue TODO: type description here
      * @return mixed response from the API call
      * @throws APIException Thrown if API call fails
      * @throws \Unirest\Exception
@@ -151,6 +150,7 @@ class MessagesController extends BaseController
      * a HTTP 404 Not Found response will be returned*
      *
      * @param string $messageId TODO: type description here
+     * @param null $accountHeaderValue TODO: type description here
      * @return mixed response from the API call
      * @throws APIException Thrown if API call fails
      */
@@ -298,6 +298,7 @@ class MessagesController extends BaseController
      * If any messages in the request are invalid, no messages will be sent.*
      *
      * @param Models\SendMessagesRequest $body TODO: type description here
+     * @param null $accountHeaderValue TODO: type description here
      * @return mixed response from the API call
      * @throws APIException Thrown if API call fails
      * @throws \Unirest\Exception

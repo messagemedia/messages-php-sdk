@@ -39,31 +39,28 @@ class MessageMediaMessagesClient
     /**
      * Singleton access to Messages controller
      *
-     * @param null $accountHeaderValue The optional value for the Account header
      * @return Controllers\MessagesController The *Singleton* instance
      */
-    public function getMessages($accountHeaderValue = null)
+    public function getMessages()
     {
-        return Controllers\MessagesController::getInstance($accountHeaderValue);
+        return Controllers\MessagesController::getInstance();
     }
     /**
      * Singleton access to DeliveryReports controller
      *
-     * @param null $accountHeaderValue The optional value for the Account header
      * @return Controllers\DeliveryReportsController The *Singleton* instance
      */
-    public function getDeliveryReports($accountHeaderValue = null)
+    public function getDeliveryReports()
     {
-        return Controllers\DeliveryReportsController::getInstance($accountHeaderValue);
+        return Controllers\DeliveryReportsController::getInstance();
     }
     /**
      * Singleton access to Replies controller
      *
-     * @param null $accountHeaderValue The optional value for the Account header
      * @return Controllers\RepliesController The *Singleton* instance
      */
-    public function getReplies($accountHeaderValue = null)
+    public function getReplies()
     {
-        return Controllers\RepliesController::getInstance($accountHeaderValue );
+        return Controllers\RepliesController::getInstance();
     }
 }

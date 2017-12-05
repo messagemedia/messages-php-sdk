@@ -10,7 +10,6 @@ use MessageMediaMessagesLib\APIException;
 use MessageMediaMessagesLib\APIHelper;
 use MessageMediaMessagesLib\Configuration;
 use MessageMediaMessagesLib\Models;
-use MessageMediaMessagesLib\Exceptions;
 use MessageMediaMessagesLib\Http\HttpRequest;
 use MessageMediaMessagesLib\Http\HttpResponse;
 use MessageMediaMessagesLib\Http\HttpMethod;
@@ -107,6 +106,7 @@ class DeliveryReportsController extends BaseController
      * *Note: It is recommended to use the Webhooks feature to receive reply messages rather than
      * polling the check delivery reports endpoint.*
      *
+     * @param null $accountHeaderValue TODO: type description here
      * @return mixed response from the API call
      * @throws APIException Thrown if API call fails
      */
@@ -177,6 +177,7 @@ class DeliveryReportsController extends BaseController
      * Up to 100 delivery reports can be confirmed in a single confirm delivery reports request.
      *
      * @param Models\ConfirmDeliveryReportsAsReceivedRequest $body TODO: type description here
+     * @param null $accountHeaderValue TODO: type description here
      * @return mixed response from the API call
      * @throws APIException Thrown if API call fails
      * @throws \Unirest\Exception

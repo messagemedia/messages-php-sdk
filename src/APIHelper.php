@@ -32,7 +32,7 @@ class APIHelper
 
         //iterate and append parameters
         foreach ($parameters as $key => $value) {
-            $replaceValue = '';
+            $replaceValue = null;
 
             //load parameter value
             if (is_null($value)) {
@@ -143,10 +143,11 @@ class APIHelper
 
     /**
      * Deserialize a Json string
-     * @param  string   $json       A valid Json string
-     * @param  mixed    $instance   Instance of an object to map the json into
-     * @param  boolean  $isArray    Is the Json an object array?
+     * @param  string $json A valid Json string
+     * @param  mixed $instance Instance of an object to map the json into
+     * @param  boolean $isArray Is the Json an object array?
      * @return mixed                Decoded Json
+     * @throws \apimatic\jsonmapper\JsonMapperException
      */
     public static function deserialize($json, $instance = null, $isArray = false)
     {

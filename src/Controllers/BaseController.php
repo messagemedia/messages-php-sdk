@@ -11,7 +11,6 @@ use MessageMediaMessagesLib\Http\HttpCallBack;
 use MessageMediaMessagesLib\Http\HttpContext;
 use MessageMediaMessagesLib\Http\HttpResponse;
 use MessageMediaMessagesLib\APIException;
-use MessageMediaMessagesLib\Exceptions;
 use \apimatic\jsonmapper\JsonMapper;
 use Unirest\Request;
 

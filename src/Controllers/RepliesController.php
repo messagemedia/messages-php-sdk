@@ -10,7 +10,6 @@ use MessageMediaMessagesLib\APIException;
 use MessageMediaMessagesLib\APIHelper;
 use MessageMediaMessagesLib\Configuration;
 use MessageMediaMessagesLib\Models;
-use MessageMediaMessagesLib\Exceptions;
 use MessageMediaMessagesLib\Http\HttpRequest;
 use MessageMediaMessagesLib\Http\HttpResponse;
 use MessageMediaMessagesLib\Http\HttpMethod;
@@ -60,6 +59,7 @@ class RepliesController extends BaseController
      * Up to 100 replies can be confirmed in a single confirm replies request.
      *
      * @param Models\ConfirmRepliesAsReceivedRequest $body TODO: type description here
+     * @param null $accountHeaderValue TODO: type description here
      * @return mixed response from the API call
      * @throws APIException Thrown if API call fails
      * @throws \Unirest\Exception
@@ -186,6 +186,7 @@ class RepliesController extends BaseController
      * *Note: It is recommended to use the Webhooks feature to receive reply messages rather than polling
      * the check replies endpoint.*
      *
+     * @param null $accountHeaderValue TODO: type description here
      * @return mixed response from the API call
      * @throws APIException Thrown if API call fails
      */
