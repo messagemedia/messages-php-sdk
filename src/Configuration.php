@@ -34,11 +34,11 @@ class Configuration
      * The username to use with HMAC authentication
      * @var string
      */
-    public static $hmacAuthUserName = 'TODO: Replace';
+    public static $hmacAuthUserName = null;
 
     /**
      * The password to use with HMAC authentication
      * @var string
      */
-    public static $hmacAuthPassword = 'TODO: Replace';
+    public static $hmacAuthPassword = null;
 }
