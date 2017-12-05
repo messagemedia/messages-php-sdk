@@ -78,7 +78,7 @@ class RepliesController extends BaseController
 
         //prepare headers
         $_headers = array (
-            'user-agent'    => 'messagemedia-messages-php-sdk-1.0.0',
+            'user-agent'    => parent::$UserAgent,
             'Accept'        => 'application/json',
             'content-type'  => 'application/json; charset=utf-8'
         );
@@ -204,8 +204,8 @@ class RepliesController extends BaseController
 
         //prepare headers
         $_headers = array(
-            'user-agent' => 'messagemedia-messages-php-sdk-1.0.0',
-            'Accept' => 'application/json'
+            'user-agent' => parent::$UserAgent,
+            'Accept'     => 'application/json'
         );
 
         $_headers = parent::addAccountHeaderTo($_headers, $accountHeaderValue);

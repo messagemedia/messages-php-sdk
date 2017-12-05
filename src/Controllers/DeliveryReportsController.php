@@ -125,7 +125,7 @@ class DeliveryReportsController extends BaseController
 
         //prepare headers
         $_headers = array (
-            'user-agent'    => 'messagemedia-messages-php-sdk-1.0.0',
+            'user-agent'    => parent::$UserAgent,
             'Accept'        => 'application/json'
         );
 
@@ -196,7 +196,7 @@ class DeliveryReportsController extends BaseController
 
         //prepare headers
         $_headers = array (
-            'user-agent'    => 'messagemedia-messages-php-sdk-1.0.0',
+            'user-agent'    => parent::$UserAgent,
             'Accept'        => 'application/json',
             'content-type'  => 'application/json; charset=utf-8'
         );

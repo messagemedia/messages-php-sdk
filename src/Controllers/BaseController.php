@@ -19,6 +19,9 @@ use Unirest\Request;
 */
 class BaseController
 {
+    public static $UserAgent = 'messagemedia-messages-php-sdk-1.0.0';
+
+
     /**
      * HttpCallBack instance associated with this controller
      * @var HttpCallBack
