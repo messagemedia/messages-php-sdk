@@ -6,6 +6,7 @@
 
 namespace MessageMediaMessagesLib\Controllers;
 
+use MessageMediaMessagesLib\Configuration;
 use MessageMediaMessagesLib\Http\HttpCallBack;
 use MessageMediaMessagesLib\Http\HttpContext;
 use MessageMediaMessagesLib\Http\HttpResponse;
@@ -57,10 +58,86 @@ class BaseController
         return $mapper;
     }
 
+    protected function addAccountHeaderTo($headers, $accountHeaderValue = null)
+    {
+        if ($accountHeaderValue != null)
+        {
+            $headers["Account"] = $accountHeaderValue;
+        }
+
+        return $headers;
+    }
+
     protected function validateResponse(HttpResponse $response, HttpContext $_httpContext)
     {
-        if (($response->getStatusCode() < 200) || ($response->getStatusCode() > 208)) { //[200,208] = HTTP OK
+        if (($response->getStatusCode() < 200) || ($response->getStatusCode() > 208))
+        { //[200,208] = HTTP OK
             throw new APIException('HTTP Response Not OK', $_httpContext);
         }
+    }
+
+    protected function addAuthorizationHeadersTo($headers, $url, $body = null)
+    {
+        if($this->hmacIsConfigured())
+        {
+            return $this->addHmacHeadersTo($headers, $url, $body);
+        }
+        else
+        {
+            Request::auth(Configuration::$basicAuthUserName, Configuration::$basicAuthPassword);
+
+            return $headers;
+        }
+    }
+
+
+    protected function addHmacHeadersTo($headers, $url, $body = null)
+    {
+        if(!$this->hmacIsConfigured())
+        {
+            return $headers;
+        }
+
+        $contentSignature = "";
+        $dateHeader = gmdate('D, d M Y H:i:s T');
+        $authContent = "";
+
+        if($body != null)
+        {
+            $contentHash = md5($body);
+            $contentSignature = "x-content-md5: ".$contentHash."\n";
+            $authContent = "x-content-md5 ";
+            $headers["x-content-md5"] = $contentHash;
+        }
+
+        $headers["date"] = $dateHeader;
+
+        $signature = $this->getHmacEncodingFor($dateHeader, $contentSignature, $body, $url, $headers);
+
+        $authorizationHeader = "hmac username=\"".Configuration::$hmacAuthUserName."\", algorithm=\"hmac-sha1\", ".
+                                "headers=\"date ".$authContent."request-line\", signature=\"".$signature."\"";
+
+        $headers["Authorization"] = $authorizationHeader;
+
+        return $headers;
+    }
+
+    private function getHmacEncodingFor($date, $contentSignature, $body, $url, $headers)
+    {
+        $requestType = "GET";
+
+        if($body != null)
+        {
+            $requestType = "POST";
+        }
+
+        $signingString = "date: ".$date."\n".$contentSignature.$requestType." ".$url." HTTP/1.1";
+
+        return base64_encode(hash_hmac('sha1', $signingString, Configuration::$hmacAuthPassword, true));
+    }
+
+    private function hmacIsConfigured()
+    {
+        return Configuration::$hmacAuthUserName != null && Configuration::$hmacAuthPassword != null;
     }
 }

@@ -7,6 +7,7 @@
 namespace MessageMediaMessagesLib\Tests;
 
 use MessageMediaMessagesLib\APIHelper;
+use MessageMediaMessagesLib\Configuration;
 
 /**
  * Configure Test Constants
@@ -310,5 +311,11 @@ class TestHelper
     public static function getFileContents($url)
     {
         return file_get_contents(static::getFile($url));
+    }
+
+    public static function getAuthorizationFromEnvironment()
+    {
+        Configuration::$basicAuthUserName = getenv('MessageMediaApiTestsKey');
+        Configuration::$basicAuthPassword = getenv('MessageMediaApiTestsSecret');
     }
 }

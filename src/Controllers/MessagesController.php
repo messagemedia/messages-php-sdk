@@ -56,26 +56,26 @@ class MessagesController extends BaseController
      * message ID parameter is specified in the request, then a HTTP 404 Not Found response will be
      * returned*
      *
-     * @param string                               $messageId TODO: type description here
-     * @param Models\CancelScheduledMessageRequest $body      TODO: type description here
+     * @param string $messageId TODO: type description here
+     * @param Models\CancelScheduledMessageRequest $body TODO: type description here
+     * @param null $accountHeaderValue The optional Account header value
      * @return mixed response from the API call
      * @throws APIException Thrown if API call fails
+     * @throws \Unirest\Exception
      */
-    public function updateCancelScheduledMessage(
-        $messageId,
-        $body
-    ) {
+    public function updateCancelScheduledMessage($messageId, $body, $accountHeaderValue = null)
+    {
+        $_requestUrl = '/v1/messages/{messageId}';
+
+        $_requestUrl = APIHelper::appendUrlWithTemplateParameters($_requestUrl, array (
+            'messageId' => $messageId,
+        ));
 
         //the base uri for api requests
         $_queryBuilder = Configuration::$BASEURI;
         
         //prepare query string for API call
-        $_queryBuilder = $_queryBuilder.'/v1/messages/{messageId}';
-
-        //process optional query parameters
-        $_queryBuilder = APIHelper::appendUrlWithTemplateParameters($_queryBuilder, array (
-            'messageId' => $messageId,
-            ));
+        $_queryBuilder = $_queryBuilder.$_requestUrl;
 
         //validate and preprocess url
         $_queryUrl = APIHelper::cleanUrl($_queryBuilder);
@@ -87,8 +87,8 @@ class MessagesController extends BaseController
             'content-type'  => 'application/json; charset=utf-8'
         );
 
-        //set HTTP basic auth parameters
-        Request::auth(Configuration::$basicAuthUserName, Configuration::$basicAuthPassword);
+        $_headers = parent::addAccountHeaderTo($_headers, $accountHeaderValue);
+        $_headers = parent::addAuthorizationHeadersTo($_headers, $_requestUrl, $body);
 
         //call on-before Http callback
         $_httpRequest = new HttpRequest(HttpMethod::PUT, $_headers, $_queryUrl);
@@ -154,20 +154,19 @@ class MessagesController extends BaseController
      * @return mixed response from the API call
      * @throws APIException Thrown if API call fails
      */
-    public function getMessageStatus(
-        $messageId
-    ) {
+    public function getMessageStatus($messageId, $accountHeaderValue = null)
+    {
+        $_requestUrl = '/v1/messages/{messageId}';
+
+        $_requestUrl = APIHelper::appendUrlWithTemplateParameters($_requestUrl, array (
+            'messageId' => $messageId,
+        ));
 
         //the base uri for api requests
         $_queryBuilder = Configuration::$BASEURI;
         
         //prepare query string for API call
-        $_queryBuilder = $_queryBuilder.'/v1/messages/{messageId}';
-
-        //process optional query parameters
-        $_queryBuilder = APIHelper::appendUrlWithTemplateParameters($_queryBuilder, array (
-            'messageId' => $messageId,
-            ));
+        $_queryBuilder = $_queryBuilder.$_requestUrl;
 
         //validate and preprocess url
         $_queryUrl = APIHelper::cleanUrl($_queryBuilder);
@@ -178,8 +177,8 @@ class MessagesController extends BaseController
             'Accept'        => 'application/json'
         );
 
-        //set HTTP basic auth parameters
-        Request::auth(Configuration::$basicAuthUserName, Configuration::$basicAuthPassword);
+        $_headers = parent::addAccountHeaderTo($_headers, $accountHeaderValue);
+        $_headers = parent::addAuthorizationHeadersTo($_headers, $_requestUrl);
 
         //call on-before Http callback
         $_httpRequest = new HttpRequest(HttpMethod::GET, $_headers, $_queryUrl);
@@ -301,16 +300,16 @@ class MessagesController extends BaseController
      * @param Models\SendMessagesRequest $body TODO: type description here
      * @return mixed response from the API call
      * @throws APIException Thrown if API call fails
+     * @throws \Unirest\Exception
      */
-    public function createSendMessages(
-        $body
-    ) {
-
+    public function createSendMessages($body, $accountHeaderValue = null)
+    {
+        $_requestUrl = '/v1/messages';
         //the base uri for api requests
         $_queryBuilder = Configuration::$BASEURI;
         
         //prepare query string for API call
-        $_queryBuilder = $_queryBuilder.'/v1/messages';
+        $_queryBuilder = $_queryBuilder.$_requestUrl;
 
         //validate and preprocess url
         $_queryUrl = APIHelper::cleanUrl($_queryBuilder);
@@ -322,8 +321,9 @@ class MessagesController extends BaseController
             'content-type'  => 'application/json; charset=utf-8'
         );
 
-        //set HTTP basic auth parameters
-        Request::auth(Configuration::$basicAuthUserName, Configuration::$basicAuthPassword);
+        $jsonBody = Request\Body::Json($body);
+        $_headers = parent::addAccountHeaderTo($_headers, $accountHeaderValue);
+        $_headers = parent::addAuthorizationHeadersTo($_headers, $_requestUrl, $jsonBody);
 
         //call on-before Http callback
         $_httpRequest = new HttpRequest(HttpMethod::POST, $_headers, $_queryUrl);
@@ -332,7 +332,7 @@ class MessagesController extends BaseController
         }
 
         //and invoke the API call request to fetch the response
-        $response = Request::post($_queryUrl, $_headers, Request\Body::Json($body));
+        $response = Request::post($_queryUrl, $_headers, $jsonBody);
 
         $_httpResponse = new HttpResponse($response->code, $response->headers, $response->raw_body);
         $_httpContext = new HttpContext($_httpRequest, $_httpResponse);

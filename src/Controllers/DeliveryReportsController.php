@@ -110,14 +110,15 @@ class DeliveryReportsController extends BaseController
      * @return mixed response from the API call
      * @throws APIException Thrown if API call fails
      */
-    public function getCheckDeliveryReports()
+    public function getCheckDeliveryReports($accountHeaderValue = null)
     {
+        $_requestUrl = '/v1/delivery_reports';
 
         //the base uri for api requests
         $_queryBuilder = Configuration::$BASEURI;
         
         //prepare query string for API call
-        $_queryBuilder = $_queryBuilder.'/v1/delivery_reports';
+        $_queryBuilder = $_queryBuilder.$_requestUrl;
 
         //validate and preprocess url
         $_queryUrl = APIHelper::cleanUrl($_queryBuilder);
@@ -128,8 +129,8 @@ class DeliveryReportsController extends BaseController
             'Accept'        => 'application/json'
         );
 
-        //set HTTP basic auth parameters
-        Request::auth(Configuration::$basicAuthUserName, Configuration::$basicAuthPassword);
+        $_headers = parent::addAccountHeaderTo($_headers, $accountHeaderValue);
+        $_headers = parent::addAuthorizationHeadersTo($_headers, $_requestUrl);
 
         //call on-before Http callback
         $_httpRequest = new HttpRequest(HttpMethod::GET, $_headers, $_queryUrl);
@@ -178,16 +179,16 @@ class DeliveryReportsController extends BaseController
      * @param Models\ConfirmDeliveryReportsAsReceivedRequest $body TODO: type description here
      * @return mixed response from the API call
      * @throws APIException Thrown if API call fails
+     * @throws \Unirest\Exception
      */
-    public function createConfirmDeliveryReportsAsReceived(
-        $body
-    ) {
-
+    public function createConfirmDeliveryReportsAsReceived($body, $accountHeaderValue = null)
+    {
+        $_requestUrl = '/v1/delivery_reports/confirmed';
         //the base uri for api requests
         $_queryBuilder = Configuration::$BASEURI;
-        
+
         //prepare query string for API call
-        $_queryBuilder = $_queryBuilder.'/v1/delivery_reports/confirmed';
+        $_queryBuilder = $_queryBuilder.$_requestUrl;
 
         //validate and preprocess url
         $_queryUrl = APIHelper::cleanUrl($_queryBuilder);
@@ -199,8 +200,9 @@ class DeliveryReportsController extends BaseController
             'content-type'  => 'application/json; charset=utf-8'
         );
 
-        //set HTTP basic auth parameters
-        Request::auth(Configuration::$basicAuthUserName, Configuration::$basicAuthPassword);
+        $jsonBody = Request\Body::Json($body);
+        $_headers = parent::addAccountHeaderTo($_headers, $accountHeaderValue);
+        $_headers = parent::addAuthorizationHeadersTo($_headers, $_requestUrl, $jsonBody);
 
         //call on-before Http callback
         $_httpRequest = new HttpRequest(HttpMethod::POST, $_headers, $_queryUrl);
@@ -209,7 +211,7 @@ class DeliveryReportsController extends BaseController
         }
 
         //and invoke the API call request to fetch the response
-        $response = Request::post($_queryUrl, $_headers, Request\Body::Json($body));
+        $response = Request::post($_queryUrl, $_headers, $jsonBody);
 
         $_httpResponse = new HttpResponse($response->code, $response->headers, $response->raw_body);
         $_httpContext = new HttpContext($_httpRequest, $_httpResponse);
