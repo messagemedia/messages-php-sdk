@@ -7,6 +7,7 @@
 namespace MessageMediaMessagesLib\Tests;
 
 use MessageMediaMessagesLib\APIHelper;
+use MessageMediaMessagesLib\Configuration;
 
 /**
  * Configure Test Constants
@@ -100,15 +101,16 @@ class TestHelper
         }
         return true;
     }
-    
+
     /**
      * Recursively check whether the left JSON object is a proper subset of the right JSON object
-     * @param   array   $leftObject     Left JSON object as string
-     * @param   array   $rightObject    Right JSON object as string
-     * @param   boolean $checkValues    Check primitive values for equality?
-     * @param   boolean $allowExtra     Are extra elements allowed in right array?
-     * @param   boolean $isOrdered      Should elements in right be compared in order to left?
+     * @param   array $leftObject Left JSON object as string
+     * @param   array $rightObject Right JSON object as string
+     * @param   boolean $checkValues Check primitive values for equality?
+     * @param   boolean $allowExtra Are extra elements allowed in right array?
+     * @param   boolean $isOrdered Should elements in right be compared in order to left?
      * @return  boolean                 If Json object is a subset
+     * @throws \apimatic\jsonmapper\JsonMapperException
      */
     public static function isJsonObjectProperSubsetOf(
         $leftObject,
@@ -126,15 +128,16 @@ class TestHelper
             $isOrdered
         );
     }
-    
+
     /**
      * Check if left array of objects is a subset of right array
-     * @param   array   $leftObject     Left array as a JSON string
-     * @param   array   $rightObject    Right array as a JSON string
-     * @param   boolean $checkValues    Check primitive values for equality?
-     * @param   boolean $allowExtra     Are extra elements allowed in right array?
-     * @param   boolean $isOrdered      Should elements in right be compared in order to left?
+     * @param   array $leftObject Left array as a JSON string
+     * @param   array $rightObject Right array as a JSON string
+     * @param   boolean $checkValues Check primitive values for equality?
+     * @param   boolean $allowExtra Are extra elements allowed in right array?
+     * @param   boolean $isOrdered Should elements in right be compared in order to left?
      * @return  boolean                 True if it is a subset
+     * @throws \apimatic\jsonmapper\JsonMapperException
      */
     public static function isArrayOfStringifiedJsonObjectsProperSubsetOf(
         $leftObject,
@@ -305,10 +308,16 @@ class TestHelper
      * Downloads and gets contents of a  file URL.
      * Subsequent calls to the same URL will get the cached file.
      * @param  string $url URL of the file to download
-     * @return binary      File contents
+     * @return binary File contents
      */
     public static function getFileContents($url)
     {
         return file_get_contents(static::getFile($url));
+    }
+
+    public static function getAuthorizationFromEnvironment()
+    {
+        Configuration::$basicAuthUserName = getenv('MessageMediaApiTestsKey');
+        Configuration::$basicAuthPassword = getenv('MessageMediaApiTestsSecret');
     }
 }

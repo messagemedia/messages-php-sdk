@@ -1,0 +1,16 @@
+language: php
+php:
+  - '5.4'
+  - '5.5'
+  - '5.6'
+  - '7.0'
+  - '7.1'
+  - '7.2'
+  - nightly
+# command to install dependencies
+install:
+  # Install composer packages, will also trigger dump-autoload
+  - travis_retry composer install --no-interaction
+# command to run tests
+script:
+  - ./vendor/bin/phpunit

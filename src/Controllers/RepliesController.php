@@ -10,7 +10,6 @@ use MessageMediaMessagesLib\APIException;
 use MessageMediaMessagesLib\APIHelper;
 use MessageMediaMessagesLib\Configuration;
 use MessageMediaMessagesLib\Models;
-use MessageMediaMessagesLib\Exceptions;
 use MessageMediaMessagesLib\Http\HttpRequest;
 use MessageMediaMessagesLib\Http\HttpResponse;
 use MessageMediaMessagesLib\Http\HttpMethod;
@@ -60,31 +59,33 @@ class RepliesController extends BaseController
      * Up to 100 replies can be confirmed in a single confirm replies request.
      *
      * @param Models\ConfirmRepliesAsReceivedRequest $body TODO: type description here
+     * @param null $accountHeaderValue TODO: type description here
      * @return mixed response from the API call
      * @throws APIException Thrown if API call fails
+     * @throws \Unirest\Exception
      */
-    public function createConfirmRepliesAsReceived(
-        $body
-    ) {
-
+    public function createConfirmRepliesAsReceived($body, $accountHeaderValue = null)
+    {
+        $_requestUrl = '/v1/replies/confirmed';
         //the base uri for api requests
         $_queryBuilder = Configuration::$BASEURI;
         
         //prepare query string for API call
-        $_queryBuilder = $_queryBuilder.'/v1/replies/confirmed';
+        $_queryBuilder = $_queryBuilder.$_requestUrl;
 
         //validate and preprocess url
         $_queryUrl = APIHelper::cleanUrl($_queryBuilder);
 
         //prepare headers
         $_headers = array (
-            'user-agent'    => 'messagemedia-messages-php-sdk-1.0.0',
+            'user-agent'    => parent::$UserAgent,
             'Accept'        => 'application/json',
             'content-type'  => 'application/json; charset=utf-8'
         );
 
-        //set HTTP basic auth parameters
-        Request::auth(Configuration::$basicAuthUserName, Configuration::$basicAuthPassword);
+        $jsonBody = Request\Body::Json($body);
+        $_headers = parent::addAccountHeaderTo($_headers, $accountHeaderValue);
+        $_headers = parent::addAuthorizationHeadersTo($_headers, $_requestUrl, $jsonBody);
 
         //call on-before Http callback
         $_httpRequest = new HttpRequest(HttpMethod::POST, $_headers, $_queryUrl);
@@ -93,7 +94,7 @@ class RepliesController extends BaseController
         }
 
         //and invoke the API call request to fetch the response
-        $response = Request::post($_queryUrl, $_headers, Request\Body::Json($body));
+        $response = Request::post($_queryUrl, $_headers, $jsonBody);
 
         $_httpResponse = new HttpResponse($response->code, $response->headers, $response->raw_body);
         $_httpContext = new HttpContext($_httpRequest, $_httpResponse);
@@ -185,32 +186,34 @@ class RepliesController extends BaseController
      * *Note: It is recommended to use the Webhooks feature to receive reply messages rather than polling
      * the check replies endpoint.*
      *
+     * @param null $accountHeaderValue TODO: type description here
      * @return mixed response from the API call
      * @throws APIException Thrown if API call fails
      */
-    public function getCheckReplies()
+    public function getCheckReplies($accountHeaderValue = null)
     {
-
+        $_requestUrl = '/v1/replies';
         //the base uri for api requests
         $_queryBuilder = Configuration::$BASEURI;
         
         //prepare query string for API call
-        $_queryBuilder = $_queryBuilder.'/v1/replies';
+        $_queryBuilder = $_queryBuilder.$_requestUrl;
 
         //validate and preprocess url
         $_queryUrl = APIHelper::cleanUrl($_queryBuilder);
 
         //prepare headers
-        $_headers = array (
-            'user-agent'    => 'messagemedia-messages-php-sdk-1.0.0',
-            'Accept'        => 'application/json'
+        $_headers = array(
+            'user-agent' => parent::$UserAgent,
+            'Accept'     => 'application/json'
         );
 
-        //set HTTP basic auth parameters
-        Request::auth(Configuration::$basicAuthUserName, Configuration::$basicAuthPassword);
+        $_headers = parent::addAccountHeaderTo($_headers, $accountHeaderValue);
+        $_headers = parent::addAuthorizationHeadersTo($_headers, $_requestUrl);
 
         //call on-before Http callback
         $_httpRequest = new HttpRequest(HttpMethod::GET, $_headers, $_queryUrl);
+
         if ($this->getHttpCallBack() != null) {
             $this->getHttpCallBack()->callOnBeforeRequest($_httpRequest);
         }

@@ -109,12 +109,14 @@ You can change the PHPUnit test configuration in the `phpunit.xml` file.
 ## Initialization
 
 ### Authentication
-In order to setup authentication and initialization of the API client, you need the following information.
+In order to setup authentication and initialization of the API client, you need the following information, choose based upon the authentication you wish to use.
 
 | Parameter | Description |
 |-----------|-------------|
 | basicAuthUserName | The username to use with basic authentication |
 | basicAuthPassword | The password to use with basic authentication |
+| hmacAuthUserName | The username to use with HMAC authentication |
+| hmacAuthPassword | The password to use with HMAC authentication |
 
 
 

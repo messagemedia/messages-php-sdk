@@ -83,7 +83,7 @@ class HttpCallBack
 
     /**
      * Call on-after event callable
-     * @param  HttpRequest $httpRequest HttpRequest for this call
+     * @param  HttpContext $httpContext HttpContext for this call
      */
     public function callOnAfterRequest(HttpContext $httpContext)
     {
