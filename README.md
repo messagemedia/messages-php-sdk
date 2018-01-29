@@ -3,7 +3,7 @@
 
 The MessageMedia Messages API provides a number of endpoints for building powerful two-way messaging applications.
 
-## Installing via Composer
+## ⭐️ Installing via Composer
 Add the following to the dependencies section of your composer.json:
 ```json
 {
@@ -19,10 +19,10 @@ Add the following to the dependencies section of your composer.json:
 }
 ```
 
-## Get Started
+## 🎬 Get Started
 It's easy to get started. Simply enter the API Key and secret you obtained from the [MessageMedia Developers Portal](https://developers.messagemedia.com) into the code snippet below and a mobile number you wish to send to.
 
-### Send an SMS
+### 🚀 Send an SMS
 * Destination numbers (`destination_number`) should be in the [E.164](http://en.wikipedia.org/wiki/E.164) format. For example, `+61491570156`.
 ```php
 <?php
@@ -52,8 +52,8 @@ $result = $messages->createSendMessages($body);
 ?>
 ```
 
-## Documentation
+## 📕 Documentation
 The NodeJS SDK Documentation can be viewed [here](DOCUMENTATION.md)
 
-## Got Stuck?
+## 😕 Got Stuck?
 Please contact developer support at developers@messagemedia.com or check out the developer portal at [developers.messagemedia.com](https://developers.messagemedia.com/)
