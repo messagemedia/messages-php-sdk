@@ -110,7 +110,7 @@ print_r($result);
 ```
 
 ## 📕 Documentation
-The NodeJS SDK Documentation can be viewed [here](DOCUMENTATION.md)
+The PHP SDK Documentation can be viewed [here](DOCUMENTATION.md)
 
 ## 😕 Got Stuck?
 Please contact developer support at developers@messagemedia.com or check out the developer portal at [developers.messagemedia.com](https://developers.messagemedia.com/)
