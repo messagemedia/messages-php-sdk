@@ -52,7 +52,7 @@ $result = $messages->createSendMessages($body);
 ```
 
 ### 🕓 Get Status of a Message
-You can get a messsage ID from a sent message by looking at the message_id from the response of the above example.
+You can get a messsage ID from a sent message by looking at the `message_id` from the response of the above example.
 ```php
 <?php
 require_once "vendor/autoload.php";
