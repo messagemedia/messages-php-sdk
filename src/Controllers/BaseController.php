@@ -19,7 +19,7 @@ use Unirest\Request;
 */
 class BaseController
 {
-    public static $UserAgent = 'messagemedia-messages-php-sdk-1.0.0';
+    public static $UserAgent = 'messagemedia-messages-php-sdk-1.1.0';
 
 
     /**
