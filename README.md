@@ -4,19 +4,10 @@
 The MessageMedia Messages API provides a number of endpoints for building powerful two-way messaging applications.
 
 ## ⭐️ Installing via Composer
-Add the following to the dependencies section of your composer.json:
-```json
-{
-    "require": {
-        "messagemedia/messages-sdk": "1.0.0"
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url":  "git@github.com:messagemedia/messages-php-sdk.git"
-        }
-    ]
-}
+Run the Composer command to install the latest stable version of the Messages SDK:
+```
+composer config repositories.messagemedia-messages-sdk vcs git@github.com:messagemedia/messages-php-sdk.git
+composer require messagemedia/messages-sdk
 ```
 
 ## 🎬 Get Started
@@ -27,6 +18,9 @@ It's easy to get started. Simply enter the API Key and secret you obtained from 
 ```php
 <?php
 require_once "vendor/autoload.php";
+
+use MessageMediaMessagesLib\MessageMediaMessagesClient;
+use MessageMediaMessagesLib\APIHelper;
 
 $basicAuthUserName = 'YOUR_API_KEY'; // The username to use with basic authentication
 $basicAuthPassword = 'YOUR_API_SECRET'; // The password to use with basic authentication
@@ -57,6 +51,8 @@ You can get a messsage ID from a sent message by looking at the `message_id` fro
 <?php
 require_once "vendor/autoload.php";
 
+use MessageMediaMessagesLib\MessageMediaMessagesClient;
+
 $basicAuthUserName = 'YOUR_API_KEY'; // The username to use with basic authentication
 $basicAuthPassword = 'YOUR_API_SECRET'; // The password to use with basic authentication
 
@@ -77,6 +73,8 @@ You can check for replies that are sent to your messages
 <?php
 require_once "vendor/autoload.php";
 
+use MessageMediaMessagesLib\MessageMediaMessagesClient;
+
 $basicAuthUserName = 'YOUR_API_KEY'; // The username to use with basic authentication
 $basicAuthPassword = 'YOUR_API_SECRET'; // The password to use with basic authentication
 
@@ -95,6 +93,8 @@ This endpoint allows you to check for delivery reports to inbound and outbound m
 ```php
 <?php
 require_once "vendor/autoload.php";
+
+use MessageMediaMessagesLib\MessageMediaMessagesClient;
 
 $basicAuthUserName = 'YOUR_API_KEY'; // The username to use with basic authentication
 $basicAuthPassword = 'YOUR_API_SECRET'; // The password to use with basic authentication
