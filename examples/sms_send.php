@@ -1,6 +1,9 @@
 <?php
 require_once "vendor/autoload.php";
 
+use MessageMediaMessagesLib\MessageMediaMessagesClient;
+use MessageMediaMessagesLib\APIHelper;
+
 $basicAuthUserName = 'YOUR_API_KEY'; // The username to use with basic authentication
 $basicAuthPassword = 'YOUR_API_SECRET'; // The password to use with basic authentication
 
