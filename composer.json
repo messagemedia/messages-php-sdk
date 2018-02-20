@@ -2,7 +2,7 @@
     "name": "messagemedia/messages-sdk",
     "type": "library",
     "description": "The MessageMedia Messages API provides a number of endpoints for building powerful two-way messaging applications.",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "keywords": ["Messages","API","SDK"],
     "homepage": "https://developers.messagemedia.com/",
     "license": "Apache-2.0",
