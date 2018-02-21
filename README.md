@@ -6,7 +6,6 @@ The MessageMedia Messages API provides a number of endpoints for building powerf
 ## ⭐️ Installing via Composer
 Run the Composer command to install the latest stable version of the Messages SDK:
 ```
-composer config repositories.messagemedia-messages-sdk vcs git@github.com:messagemedia/messages-php-sdk.git
 composer require messagemedia/messages-sdk
 ```
 
