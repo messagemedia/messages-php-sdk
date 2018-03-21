@@ -3,10 +3,11 @@ require_once "vendor/autoload.php";
 
 use MessageMediaMessagesLib\MessageMediaMessagesClient;
 
-$basicAuthUserName = 'YOUR_API_KEY'; // The username to use with basic authentication
-$basicAuthPassword = 'YOUR_API_SECRET'; // The password to use with basic authentication
+$authUserName = 'YOUR_API_KEY'; // The API key to use with basic/HMAC authentication
+$authPassword = 'YOUR_API_SECRET'; // The API secret to use with basic/HMAC authentication
+$useHmacAuthentication = false; // Change to true if you are using HMAC keys
 
-$client = new MessageMediaMessagesLib\MessageMediaMessagesClient($basicAuthUserName, $basicAuthPassword);
+$client = new MessageMediaMessagesLib\MessageMediaMessagesClient($authUserName, $authPassword, $useHmacAuthentication);
 
 $deliveryReports = $client->getDeliveryReports();
 
