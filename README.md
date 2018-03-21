@@ -4,6 +4,8 @@
 
 The MessageMedia Messages API provides a number of endpoints for building powerful two-way messaging applications.
 
+![Alt Text](https://media.giphy.com/media/l0Exov2QmxF5Xwjkc/giphy.gif)
+
 ## ⭐️ Installing via Composer
 Run the Composer command to install the latest stable version of the Messages SDK:
 ```
@@ -22,10 +24,11 @@ require_once "vendor/autoload.php";
 use MessageMediaMessagesLib\MessageMediaMessagesClient;
 use MessageMediaMessagesLib\APIHelper;
 
-$basicAuthUserName = 'YOUR_API_KEY'; // The username to use with basic authentication
-$basicAuthPassword = 'YOUR_API_SECRET'; // The password to use with basic authentication
+$authUserName = 'YOUR_API_KEY'; // The API key to use with basic/HMAC authentication
+$authPassword = 'YOUR_API_SECRET'; // The API secret to use with basic/HMAC authentication
+$useHmacAuthentication = false; // Change to true if you are using HMAC keys
 
-$client = new MessageMediaMessagesLib\MessageMediaMessagesClient($basicAuthUserName, $basicAuthPassword);
+$client = new MessageMediaMessagesLib\MessageMediaMessagesClient($authUserName, $authPassword, $useHmacAuthentication);
 
 $messages = $client->getMessages();
 
@@ -53,10 +56,11 @@ require_once "vendor/autoload.php";
 
 use MessageMediaMessagesLib\MessageMediaMessagesClient;
 
-$basicAuthUserName = 'YOUR_API_KEY'; // The username to use with basic authentication
-$basicAuthPassword = 'YOUR_API_SECRET'; // The password to use with basic authentication
+$authUserName = 'YOUR_API_KEY'; // The API key to use with basic/HMAC authentication
+$authPassword = 'YOUR_API_SECRET'; // The API secret to use with basic/HMAC authentication
+$useHmacAuthentication = false; // Change to true if you are using HMAC keys
 
-$client = new MessageMediaMessagesLib\MessageMediaMessagesClient($basicAuthUserName, $basicAuthPassword);
+$client = new MessageMediaMessagesLib\MessageMediaMessagesClient($authUserName, $authPassword, $useHmacAuthentication);
 
 $messages = $client->getMessages();
 
@@ -75,10 +79,11 @@ require_once "vendor/autoload.php";
 
 use MessageMediaMessagesLib\MessageMediaMessagesClient;
 
-$basicAuthUserName = 'YOUR_API_KEY'; // The username to use with basic authentication
-$basicAuthPassword = 'YOUR_API_SECRET'; // The password to use with basic authentication
+$authUserName = 'YOUR_API_KEY'; // The API key to use with basic/HMAC authentication
+$authPassword = 'YOUR_API_SECRET'; // The API secret to use with basic/HMAC authentication
+$useHmacAuthentication = false; // Change to true if you are using HMAC keys
 
-$client = new MessageMediaMessagesLib\MessageMediaMessagesClient($basicAuthUserName, $basicAuthPassword);
+$client = new MessageMediaMessagesLib\MessageMediaMessagesClient($authUserName, $authPassword, $useHmacAuthentication);
 
 $replies = $client->getReplies();
 
@@ -96,10 +101,11 @@ require_once "vendor/autoload.php";
 
 use MessageMediaMessagesLib\MessageMediaMessagesClient;
 
-$basicAuthUserName = 'YOUR_API_KEY'; // The username to use with basic authentication
-$basicAuthPassword = 'YOUR_API_SECRET'; // The password to use with basic authentication
+$authUserName = 'YOUR_API_KEY'; // The API key to use with basic/HMAC authentication
+$authPassword = 'YOUR_API_SECRET'; // The API secret to use with basic/HMAC authentication
+$useHmacAuthentication = false; // Change to true if you are using HMAC keys
 
-$client = new MessageMediaMessagesLib\MessageMediaMessagesClient($basicAuthUserName, $basicAuthPassword);
+$client = new MessageMediaMessagesLib\MessageMediaMessagesClient($authUserName, $authPassword, $useHmacAuthentication);
 
 $deliveryReports = $client->getDeliveryReports();
 
@@ -110,7 +116,10 @@ print_r($result);
 ```
 
 ## 📕 Documentation
-The PHP SDK Documentation can be viewed [here](DOCUMENTATION.md)
+Check out the [full API documentation](DOCUMENTATION.md) for more detailed information.
 
 ## 😕 Got Stuck?
 Please contact developer support at developers@messagemedia.com or check out the developer portal at [developers.messagemedia.com](https://developers.messagemedia.com/)
+
+## 📃 License
+Apache License. See the [LICENSE](LICENSE) file.
