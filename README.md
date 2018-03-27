@@ -4,8 +4,6 @@
 
 The MessageMedia Messages API provides a number of endpoints for building powerful two-way messaging applications.
 
-![Alt Text](https://media.giphy.com/media/l0Exov2QmxF5Xwjkc/giphy.gif)
-
 ## ⭐️ Installing via Composer
 Run the Composer command to install the latest stable version of the Messages SDK:
 ```
