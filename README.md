@@ -1,6 +1,6 @@
 # MessageMedia Messages PHP SDK
 [![Travis Build Status](https://api.travis-ci.org/messagemedia/messages-php-sdk.svg?branch=master)](https://travis-ci.org/messagemedia/messages-php-sdk)
-[![composer](https://img.shields.io/badge/composer-v1.1.2-orange.svg)](https://packagist.org/packages/messagemedia/messages-sdk)
+[![composer](https://badge.fury.io/ph/messagemedia%2Fmessages-sdk.svg)](https://packagist.org/packages/messagemedia/messages-sdk)
 
 The MessageMedia Messages API provides a number of endpoints for building powerful two-way messaging applications.
 
