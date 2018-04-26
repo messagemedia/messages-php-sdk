@@ -51,6 +51,43 @@ $result = $messages->createSendMessages($body);
 ?>
 ```
 
+
+### 🖼 Send an MMS
+* Destination numbers (`destination_number`) should be in the [E.164](http://en.wikipedia.org/wiki/E.164) format. For example, `+61491570156`.
+```php
+<?php
+require_once "vendor/autoload.php";
+
+$basicAuthUserName = 'YOUR_API_KEY'; // The username to use with basic authentication
+$basicAuthPassword = 'YOUR_API_SECRET'; // The password to use with basic authentication
+
+$client = new MessageMediaMessagesLib\MessageMediaMessagesClient($basicAuthUserName, $basicAuthPassword);
+
+$messages = $client->getMessages();
+
+$bodyValue = '
+{
+   "messages":[
+     {
+        "content":"Test",
+        "destination_number":"YOUR_MOBILE_NUMBER",
+        "format": "MMS",
+        "media":["https://upload.wikimedia.org/wikipedia/commons/6/6a/L80385-flash-superhero-logo-1544.png"]
+     }
+   ]
+}
+';
+
+
+$body = MessageMediaMessagesLib\APIHelper::deserialize($bodyValue);
+
+
+$result = $messages->createSendMessages($body);
+}
+
+?>
+```
+
 ### 🕓 Get Status of a Message
 You can get a messsage ID from a sent message by looking at the `message_id` from the response of the above example.
 ```php
