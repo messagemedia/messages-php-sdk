@@ -86,6 +86,11 @@ class BaseController
         }
         else
         {
+
+            if(strlen(Configuration::$basicAuthUserName) !== 20 || strlen(Configuration::$basicAuthPassword) !== 30) {
+              echo "~~~~~ It appears as though your REST API Keys are invalid. Please check and make sure they are correct. ~~~~~";
+            }
+
             Request::auth(Configuration::$basicAuthUserName, Configuration::$basicAuthPassword);
 
             return $headers;
