@@ -58,7 +58,7 @@ If you discover a problem with the SDK, we would like to know about it. You can 
 
 We welcome your thoughts on how we could best provide you with SDKs that would simplify how you consume our services in your application. You can fork and create pull requests for any features you would like to see or raise an [issue](https://github.com/messagemedia/signingkeys-nodejs-sdk/issues)
 
-## :star: Installing via Composer
+## :star: Installation
 Run the Composer command to install the latest stable version of the Messages SDK:
 ```
 composer require messagemedia/messages-sdk
