@@ -2,6 +2,7 @@
 /*
  * MessageMediaMessages
  *
+ * This file was automatically generated for MessageMedia by APIMATIC v2.0 ( https://apimatic.io ).
  */
 
 namespace MessageMediaMessagesLib\Models;
@@ -14,10 +15,9 @@ use JsonSerializable;
 class CheckDeliveryReportsResponse implements JsonSerializable
 {
     /**
-     * @todo Write general description for this property
-     * @required
+     * The oldest 100 unconfirmed delivery reports
      * @maps delivery_reports
-     * @var array $deliveryReports public property
+     * @var \MessageMediaMessagesLib\Models\DeliveryReport[]|null $deliveryReports public property
      */
     public $deliveryReports;
 

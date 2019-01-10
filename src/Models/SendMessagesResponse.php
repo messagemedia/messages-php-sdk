@@ -2,6 +2,7 @@
 /*
  * MessageMediaMessages
  *
+ * This file was automatically generated for MessageMedia by APIMATIC v2.0 ( https://apimatic.io ).
  */
 
 namespace MessageMediaMessagesLib\Models;
@@ -15,8 +16,7 @@ class SendMessagesResponse implements JsonSerializable
 {
     /**
      * @todo Write general description for this property
-     * @required
-     * @var array $messages public property
+     * @var \MessageMediaMessagesLib\Models\Message[]|null $messages public property
      */
     public $messages;
 

@@ -2,6 +2,7 @@
 /*
  * MessageMediaMessages
  *
+ * This file was automatically generated for MessageMedia by APIMATIC v2.0 ( https://apimatic.io ).
  */
 
 namespace MessageMediaMessagesLib\Controllers;
@@ -10,6 +11,7 @@ use MessageMediaMessagesLib\APIException;
 use MessageMediaMessagesLib\APIHelper;
 use MessageMediaMessagesLib\Configuration;
 use MessageMediaMessagesLib\Models;
+use MessageMediaMessagesLib\Exceptions;
 use MessageMediaMessagesLib\Http\HttpRequest;
 use MessageMediaMessagesLib\Http\HttpResponse;
 use MessageMediaMessagesLib\Http\HttpMethod;
@@ -40,88 +42,6 @@ class MessagesController extends BaseController
     }
 
     /**
-     * Cancel a scheduled message that has not yet been delivered.
-     * A scheduled message can be cancelled by updating the status of a message from ```scheduled```
-     * to ```cancelled```. This is done by submitting a PUT request to the messages endpoint using
-     * the message ID as a parameter (the same endpoint used above to retrieve the status of a message).
-     * The body of the request simply needs to contain a ```status``` property with the value set
-     * to ```cancelled```.
-     * ```json
-     * {
-     * "status": "cancelled"
-     * }
-     * ```
-     * *Note: Only messages with a status of scheduled can be cancelled. If an invalid or non existent
-     * message ID parameter is specified in the request, then a HTTP 404 Not Found response will be
-     * returned*
-     *
-     * @param string $messageId TODO: type description here
-     * @param Models\CancelScheduledMessageRequest $body TODO: type description here
-     * @param null $accountHeaderValue TODO: type description here
-     * @return mixed response from the API call
-     * @throws APIException Thrown if API call fails
-     * @throws \Unirest\Exception
-     */
-    public function updateCancelScheduledMessage($messageId, $body, $accountHeaderValue = null)
-    {
-        $_requestUrl = '/v1/messages/{messageId}';
-
-        $_requestUrl = APIHelper::appendUrlWithTemplateParameters($_requestUrl, array (
-            'messageId' => $messageId,
-        ));
-
-        //the base uri for api requests
-        $_queryBuilder = Configuration::$BASEURI;
-        
-        //prepare query string for API call
-        $_queryBuilder = $_queryBuilder.$_requestUrl;
-
-        //validate and preprocess url
-        $_queryUrl = APIHelper::cleanUrl($_queryBuilder);
-
-        //prepare headers
-        $_headers = array (
-            'user-agent'    => parent::$UserAgent,
-            'Accept'        => 'application/json',
-            'content-type'  => 'application/json; charset=utf-8'
-        );
-
-        $_headers = parent::addAccountHeaderTo($_headers, $accountHeaderValue);
-        $_headers = parent::addAuthorizationHeadersTo($_headers, $_requestUrl, $body);
-
-        //call on-before Http callback
-        $_httpRequest = new HttpRequest(HttpMethod::PUT, $_headers, $_queryUrl);
-        if ($this->getHttpCallBack() != null) {
-            $this->getHttpCallBack()->callOnBeforeRequest($_httpRequest);
-        }
-
-        //and invoke the API call request to fetch the response
-        $response = Request::put($_queryUrl, $_headers, Request\Body::Json($body));
-
-        $_httpResponse = new HttpResponse($response->code, $response->headers, $response->raw_body);
-        $_httpContext = new HttpContext($_httpRequest, $_httpResponse);
-
-        //call on-after Http callback
-        if ($this->getHttpCallBack() != null) {
-            $this->getHttpCallBack()->callOnAfterRequest($_httpContext);
-        }
-
-        //Error handling using HTTP status codes
-        if ($response->code == 400) {
-            throw new APIException('', $_httpContext);
-        }
-
-        if ($response->code == 404) {
-            throw new APIException('', $_httpContext);
-        }
-
-        //handle errors defined at the API level
-        $this->validateResponse($_httpResponse, $_httpContext);
-
-        return $response->body;
-    }
-
-    /**
      * Retrieve the current status of a message using the message ID returned in the send messages end
      * point.
      * A successful request to the get message status endpoint will return a response body as follows:
@@ -139,7 +59,7 @@ class MessagesController extends BaseController
      * "destination_number": "+61401760575",
      * "scheduled": "2016-11-03T11:49:02.807Z",
      * "source_number": "+61491570157",
-     * "source_number_type": "INTERNATIONAL"
+     * "source_number_type": "INTERNATIONAL",
      * "message_expiry_timestamp": "2016-11-03T11:49:02.807Z",
      * "status": "enroute"
      * }
@@ -150,35 +70,35 @@ class MessagesController extends BaseController
      * a HTTP 404 Not Found response will be returned*
      *
      * @param string $messageId TODO: type description here
-     * @param null $accountHeaderValue TODO: type description here
      * @return mixed response from the API call
      * @throws APIException Thrown if API call fails
      */
-    public function getMessageStatus($messageId, $accountHeaderValue = null)
-    {
-        $_requestUrl = '/v1/messages/{messageId}';
-
-        $_requestUrl = APIHelper::appendUrlWithTemplateParameters($_requestUrl, array (
-            'messageId' => $messageId,
-        ));
+    public function getMessageStatus(
+        $messageId
+    ) {
 
         //the base uri for api requests
         $_queryBuilder = Configuration::$BASEURI;
         
         //prepare query string for API call
-        $_queryBuilder = $_queryBuilder.$_requestUrl;
+        $_queryBuilder = $_queryBuilder.'/v1/messages/{messageId}';
+
+        //process optional query parameters
+        $_queryBuilder = APIHelper::appendUrlWithTemplateParameters($_queryBuilder, array (
+            'messageId' => $messageId,
+            ));
 
         //validate and preprocess url
         $_queryUrl = APIHelper::cleanUrl($_queryBuilder);
 
         //prepare headers
         $_headers = array (
-            'user-agent'    => parent::$UserAgent,
+            'user-agent'    => 'messagemedia-messages',
             'Accept'        => 'application/json'
         );
 
-        $_headers = parent::addAccountHeaderTo($_headers, $accountHeaderValue);
-        $_headers = parent::addAuthorizationHeadersTo($_headers, $_requestUrl);
+        //set HTTP basic auth parameters
+        Request::auth(Configuration::$basicAuthUserName, Configuration::$basicAuthPassword);
 
         //call on-before Http callback
         $_httpRequest = new HttpRequest(HttpMethod::GET, $_headers, $_queryUrl);
@@ -199,17 +119,19 @@ class MessagesController extends BaseController
 
         //Error handling using HTTP status codes
         if ($response->code == 404) {
-            throw new APIException('', $_httpContext);
+            throw new APIException('Resource not found', $_httpContext);
         }
 
         //handle errors defined at the API level
         $this->validateResponse($_httpResponse, $_httpContext);
 
-        return $response->body;
+        $mapper = $this->getJsonMapper();
+
+        return $mapper->mapClass($response->body, 'MessageMediaMessagesLib\\Models\\GetMessageStatusResponse');
     }
 
     /**
-     * Submit one or more (up to 100 per request) SMS or text to voice messages for delivery.
+     * Submit one or more (up to 100 per request) SMS, MMS or text to voice messages for delivery.
      * The most basic message has the following structure:
      * ```json
      * {
@@ -242,7 +164,7 @@ class MessagesController extends BaseController
      * international format. For information on E.164, please refer to http://en.wikipedia.org/wiki/E.164.
      * A destination number is required.
      * - ```format``` The format specifies which format the message will be sent as, ```SMS``` (text
-     * message)
+     * message), ```MMS``` (multimedia message)
      * or ```TTS``` (text to speech). With ```TTS``` format, we will call the destination number and read
      * out the
      * message using a computer generated voice. Specifying a format is optional, by default ```SMS```
@@ -251,9 +173,14 @@ class MessagesController extends BaseController
      * that
      * the message appears from on the handset. By default this feature is _not_ available and will be
      * ignored
-     * in the request. Please contact <support@messagemeda.com> for more information. Specifying a
+     * in the request. Please contact <support@messagemedia.com> for more information. Specifying a
      * source
      * number is optional and a by default a source number will be assigned to the message.
+     * - ```media``` The media is used to specify the url of the media file that you are trying to send.
+     * Supported file formats include png, jpeg and gif. ```format``` parameter must be set to ```MMS```
+     * for this to work.
+     * - ```subject``` The subject field is used to denote subject of the MMS message and has a maximum
+     * size of 64 characters long. Specifying a subject is optional.
      * - ```source_number_type``` If a source number is specified, the type of source number may also be
      * specified. This is recommended when using a source address type that is not an internationally
      * formatted number, available options are ```INTERNATIONAL```, ```ALPHANUMERIC``` or ```SHORTCODE```.
@@ -298,33 +225,31 @@ class MessagesController extends BaseController
      * If any messages in the request are invalid, no messages will be sent.*
      *
      * @param Models\SendMessagesRequest $body TODO: type description here
-     * @param null $accountHeaderValue TODO: type description here
      * @return mixed response from the API call
      * @throws APIException Thrown if API call fails
-     * @throws \Unirest\Exception
      */
-    public function createSendMessages($body, $accountHeaderValue = null)
-    {
-        $_requestUrl = '/v1/messages';
+    public function sendMessages(
+        $body
+    ) {
+
         //the base uri for api requests
         $_queryBuilder = Configuration::$BASEURI;
         
         //prepare query string for API call
-        $_queryBuilder = $_queryBuilder.$_requestUrl;
+        $_queryBuilder = $_queryBuilder.'/v1/messages';
 
         //validate and preprocess url
         $_queryUrl = APIHelper::cleanUrl($_queryBuilder);
 
         //prepare headers
         $_headers = array (
-            'user-agent'    => parent::$UserAgent,
+            'user-agent'    => 'messagemedia-messages',
             'Accept'        => 'application/json',
             'content-type'  => 'application/json; charset=utf-8'
         );
 
-        $jsonBody = Request\Body::Json($body);
-        $_headers = parent::addAccountHeaderTo($_headers, $accountHeaderValue);
-        $_headers = parent::addAuthorizationHeadersTo($_headers, $_requestUrl, $jsonBody);
+        //set HTTP basic auth parameters
+        Request::auth(Configuration::$basicAuthUserName, Configuration::$basicAuthPassword);
 
         //call on-before Http callback
         $_httpRequest = new HttpRequest(HttpMethod::POST, $_headers, $_queryUrl);
@@ -333,7 +258,7 @@ class MessagesController extends BaseController
         }
 
         //and invoke the API call request to fetch the response
-        $response = Request::post($_queryUrl, $_headers, $jsonBody);
+        $response = Request::post($_queryUrl, $_headers, Request\Body::Json($body));
 
         $_httpResponse = new HttpResponse($response->code, $response->headers, $response->raw_body);
         $_httpContext = new HttpContext($_httpRequest, $_httpResponse);
@@ -345,7 +270,10 @@ class MessagesController extends BaseController
 
         //Error handling using HTTP status codes
         if ($response->code == 400) {
-            throw new APIException('', $_httpContext);
+            throw new Exceptions\SendMessages400ResponseException(
+                'Unexpected error in API call. See HTTP response body for details.',
+                $_httpContext
+            );
         }
 
         //handle errors defined at the API level
@@ -354,5 +282,128 @@ class MessagesController extends BaseController
         $mapper = $this->getJsonMapper();
 
         return $mapper->mapClass($response->body, 'MessageMediaMessagesLib\\Models\\SendMessagesResponse');
+    }
+
+    /**
+     * Cancel a scheduled message that has not yet been delivered.
+     * A scheduled message can be cancelled by updating the status of a message from ```scheduled```
+     * to ```cancelled```. This is done by submitting a PUT request to the messages endpoint using
+     * the message ID as a parameter (the same endpoint used above to retrieve the status of a message).
+     * The body of the request simply needs to contain a ```status``` property with the value set
+     * to ```cancelled```.
+     * ```json
+     * {
+     * "status": "cancelled"
+     * }
+     * ```
+     * *Note: Only messages with a status of scheduled can be cancelled. If an invalid or non existent
+     * message ID parameter is specified in the request, then a HTTP 404 Not Found response will be
+     * returned*
+     *
+     * @param string                               $messageId TODO: type description here
+     * @param Models\CancelScheduledMessageRequest $body      TODO: type description here
+     * @return mixed response from the API call
+     * @throws APIException Thrown if API call fails
+     */
+    public function cancelScheduledMessage(
+        $messageId,
+        $body
+    ) {
+
+        //the base uri for api requests
+        $_queryBuilder = Configuration::$BASEURI;
+        
+        //prepare query string for API call
+        $_queryBuilder = $_queryBuilder.'/v1/messages/{messageId}';
+
+        //process optional query parameters
+        $_queryBuilder = APIHelper::appendUrlWithTemplateParameters($_queryBuilder, array (
+            'messageId' => $messageId,
+            ));
+
+        //validate and preprocess url
+        $_queryUrl = APIHelper::cleanUrl($_queryBuilder);
+
+        //prepare headers
+        $_headers = array (
+            'user-agent'    => 'messagemedia-messages',
+            'Accept'        => 'application/json',
+            'content-type'  => 'application/json; charset=utf-8'
+        );
+
+        //set HTTP basic auth parameters
+        Request::auth(Configuration::$basicAuthUserName, Configuration::$basicAuthPassword);
+
+        //call on-before Http callback
+        $_httpRequest = new HttpRequest(HttpMethod::PUT, $_headers, $_queryUrl);
+        if ($this->getHttpCallBack() != null) {
+            $this->getHttpCallBack()->callOnBeforeRequest($_httpRequest);
+        }
+
+        //and invoke the API call request to fetch the response
+        $response = Request::put($_queryUrl, $_headers, Request\Body::Json($body));
+
+        $_httpResponse = new HttpResponse($response->code, $response->headers, $response->raw_body);
+        $_httpContext = new HttpContext($_httpRequest, $_httpResponse);
+
+        //call on-after Http callback
+        if ($this->getHttpCallBack() != null) {
+            $this->getHttpCallBack()->callOnAfterRequest($_httpContext);
+        }
+
+        //handle errors defined at the API level
+        $this->validateResponse($_httpResponse, $_httpContext);
+
+        return $response->body;
+    }
+
+    /**
+     * @todo Add general description for this endpoint
+     *
+     * @return mixed response from the API call
+     * @throws APIException Thrown if API call fails
+     */
+    public function checkCreditsRemaining()
+    {
+
+        //the base uri for api requests
+        $_queryBuilder = Configuration::$BASEURI;
+        
+        //prepare query string for API call
+        $_queryBuilder = $_queryBuilder.'/v1/messaging/credits';
+
+        //validate and preprocess url
+        $_queryUrl = APIHelper::cleanUrl($_queryBuilder);
+
+        //prepare headers
+        $_headers = array (
+            'user-agent'    => 'messagemedia-messages',
+            'Accept'        => 'application/json'
+        );
+
+        //set HTTP basic auth parameters
+        Request::auth(Configuration::$basicAuthUserName, Configuration::$basicAuthPassword);
+
+        //call on-before Http callback
+        $_httpRequest = new HttpRequest(HttpMethod::GET, $_headers, $_queryUrl);
+        if ($this->getHttpCallBack() != null) {
+            $this->getHttpCallBack()->callOnBeforeRequest($_httpRequest);
+        }
+
+        //and invoke the API call request to fetch the response
+        $response = Request::get($_queryUrl, $_headers);
+
+        $_httpResponse = new HttpResponse($response->code, $response->headers, $response->raw_body);
+        $_httpContext = new HttpContext($_httpRequest, $_httpResponse);
+
+        //call on-after Http callback
+        if ($this->getHttpCallBack() != null) {
+            $this->getHttpCallBack()->callOnAfterRequest($_httpContext);
+        }
+
+        //handle errors defined at the API level
+        $this->validateResponse($_httpResponse, $_httpContext);
+
+        return $response->body;
     }
 }

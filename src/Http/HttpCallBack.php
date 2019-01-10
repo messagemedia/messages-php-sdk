@@ -2,6 +2,7 @@
 /*
  * MessageMediaMessages
  *
+ * This file was automatically generated for MessageMedia by APIMATIC v2.0 ( https://apimatic.io ).
  */
 
 namespace MessageMediaMessagesLib\Http;
@@ -83,7 +84,7 @@ class HttpCallBack
 
     /**
      * Call on-after event callable
-     * @param  HttpContext $httpContext HttpContext for this call
+     * @param  HttpRequest $httpRequest HttpRequest for this call
      */
     public function callOnAfterRequest(HttpContext $httpContext)
     {

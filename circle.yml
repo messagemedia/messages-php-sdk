@@ -1,5 +1,0 @@
-# Circle CI should automatically run the tests.
-# For configuration options, visit: https://circleci.com/docs/configuration/
-machine:
-  php:
-    version: 5.6.22

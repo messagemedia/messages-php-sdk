@@ -2,6 +2,7 @@
 /*
  * MessageMediaMessages
  *
+ * This file was automatically generated for MessageMedia by APIMATIC v2.0 ( https://apimatic.io ).
  */
 
 namespace MessageMediaMessagesLib\Controllers;
@@ -10,6 +11,7 @@ use MessageMediaMessagesLib\APIException;
 use MessageMediaMessagesLib\APIHelper;
 use MessageMediaMessagesLib\Configuration;
 use MessageMediaMessagesLib\Models;
+use MessageMediaMessagesLib\Exceptions;
 use MessageMediaMessagesLib\Http\HttpRequest;
 use MessageMediaMessagesLib\Http\HttpResponse;
 use MessageMediaMessagesLib\Http\HttpMethod;
@@ -37,82 +39,6 @@ class RepliesController extends BaseController
         }
         
         return static::$instance;
-    }
-
-    /**
-     * Mark a reply message as confirmed so it is no longer returned in check replies requests.
-     * The confirm replies endpoint is intended to be used in conjunction with the check replies endpoint
-     * to allow for robust processing of reply messages. Once one or more reply messages have been
-     * processed
-     * they can then be confirmed using the confirm replies endpoint so they are no longer returned in
-     * subsequent check replies requests.
-     * The confirm replies endpoint takes a list of reply IDs as follows:
-     * ```json
-     * {
-     * "reply_ids": [
-     * "011dcead-6988-4ad6-a1c7-6b6c68ea628d",
-     * "3487b3fa-6586-4979-a233-2d1b095c7718",
-     * "ba28e94b-c83d-4759-98e7-ff9c7edb87a1"
-     * ]
-     * }
-     * ```
-     * Up to 100 replies can be confirmed in a single confirm replies request.
-     *
-     * @param Models\ConfirmRepliesAsReceivedRequest $body TODO: type description here
-     * @param null $accountHeaderValue TODO: type description here
-     * @return mixed response from the API call
-     * @throws APIException Thrown if API call fails
-     * @throws \Unirest\Exception
-     */
-    public function createConfirmRepliesAsReceived($body, $accountHeaderValue = null)
-    {
-        $_requestUrl = '/v1/replies/confirmed';
-        //the base uri for api requests
-        $_queryBuilder = Configuration::$BASEURI;
-        
-        //prepare query string for API call
-        $_queryBuilder = $_queryBuilder.$_requestUrl;
-
-        //validate and preprocess url
-        $_queryUrl = APIHelper::cleanUrl($_queryBuilder);
-
-        //prepare headers
-        $_headers = array (
-            'user-agent'    => parent::$UserAgent,
-            'Accept'        => 'application/json',
-            'content-type'  => 'application/json; charset=utf-8'
-        );
-
-        $jsonBody = Request\Body::Json($body);
-        $_headers = parent::addAccountHeaderTo($_headers, $accountHeaderValue);
-        $_headers = parent::addAuthorizationHeadersTo($_headers, $_requestUrl, $jsonBody);
-
-        //call on-before Http callback
-        $_httpRequest = new HttpRequest(HttpMethod::POST, $_headers, $_queryUrl);
-        if ($this->getHttpCallBack() != null) {
-            $this->getHttpCallBack()->callOnBeforeRequest($_httpRequest);
-        }
-
-        //and invoke the API call request to fetch the response
-        $response = Request::post($_queryUrl, $_headers, $jsonBody);
-
-        $_httpResponse = new HttpResponse($response->code, $response->headers, $response->raw_body);
-        $_httpContext = new HttpContext($_httpRequest, $_httpResponse);
-
-        //call on-after Http callback
-        if ($this->getHttpCallBack() != null) {
-            $this->getHttpCallBack()->callOnAfterRequest($_httpContext);
-        }
-
-        //Error handling using HTTP status codes
-        if ($response->code == 400) {
-            throw new APIException('', $_httpContext);
-        }
-
-        //handle errors defined at the API level
-        $this->validateResponse($_httpResponse, $_httpContext);
-
-        return $response->body;
     }
 
     /**
@@ -186,34 +112,32 @@ class RepliesController extends BaseController
      * *Note: It is recommended to use the Webhooks feature to receive reply messages rather than polling
      * the check replies endpoint.*
      *
-     * @param null $accountHeaderValue TODO: type description here
      * @return mixed response from the API call
      * @throws APIException Thrown if API call fails
      */
-    public function getCheckReplies($accountHeaderValue = null)
+    public function checkReplies()
     {
-        $_requestUrl = '/v1/replies';
+
         //the base uri for api requests
         $_queryBuilder = Configuration::$BASEURI;
         
         //prepare query string for API call
-        $_queryBuilder = $_queryBuilder.$_requestUrl;
+        $_queryBuilder = $_queryBuilder.'/v1/replies';
 
         //validate and preprocess url
         $_queryUrl = APIHelper::cleanUrl($_queryBuilder);
 
         //prepare headers
-        $_headers = array(
-            'user-agent' => parent::$UserAgent,
-            'Accept'     => 'application/json'
+        $_headers = array (
+            'user-agent'    => 'messagemedia-messages',
+            'Accept'        => 'application/json'
         );
 
-        $_headers = parent::addAccountHeaderTo($_headers, $accountHeaderValue);
-        $_headers = parent::addAuthorizationHeadersTo($_headers, $_requestUrl);
+        //set HTTP basic auth parameters
+        Request::auth(Configuration::$basicAuthUserName, Configuration::$basicAuthPassword);
 
         //call on-before Http callback
         $_httpRequest = new HttpRequest(HttpMethod::GET, $_headers, $_queryUrl);
-
         if ($this->getHttpCallBack() != null) {
             $this->getHttpCallBack()->callOnBeforeRequest($_httpRequest);
         }
@@ -235,5 +159,74 @@ class RepliesController extends BaseController
         $mapper = $this->getJsonMapper();
 
         return $mapper->mapClass($response->body, 'MessageMediaMessagesLib\\Models\\CheckRepliesResponse');
+    }
+
+    /**
+     * Mark a reply message as confirmed so it is no longer returned in check replies requests.
+     * The confirm replies endpoint is intended to be used in conjunction with the check replies endpoint
+     * to allow for robust processing of reply messages. Once one or more reply messages have been
+     * processed
+     * they can then be confirmed using the confirm replies endpoint so they are no longer returned in
+     * subsequent check replies requests.
+     * The confirm replies endpoint takes a list of reply IDs as follows:
+     * ```json
+     * {
+     * "reply_ids": [
+     * "011dcead-6988-4ad6-a1c7-6b6c68ea628d",
+     * "3487b3fa-6586-4979-a233-2d1b095c7718",
+     * "ba28e94b-c83d-4759-98e7-ff9c7edb87a1"
+     * ]
+     * }
+     * ```
+     * Up to 100 replies can be confirmed in a single confirm replies request.
+     *
+     * @param Models\ConfirmRepliesAsReceivedRequest $body TODO: type description here
+     * @return mixed response from the API call
+     * @throws APIException Thrown if API call fails
+     */
+    public function confirmRepliesAsReceived(
+        $body
+    ) {
+
+        //the base uri for api requests
+        $_queryBuilder = Configuration::$BASEURI;
+        
+        //prepare query string for API call
+        $_queryBuilder = $_queryBuilder.'/v1/replies/confirmed';
+
+        //validate and preprocess url
+        $_queryUrl = APIHelper::cleanUrl($_queryBuilder);
+
+        //prepare headers
+        $_headers = array (
+            'user-agent'    => 'messagemedia-messages',
+            'Accept'        => 'application/json',
+            'content-type'  => 'application/json; charset=utf-8'
+        );
+
+        //set HTTP basic auth parameters
+        Request::auth(Configuration::$basicAuthUserName, Configuration::$basicAuthPassword);
+
+        //call on-before Http callback
+        $_httpRequest = new HttpRequest(HttpMethod::POST, $_headers, $_queryUrl);
+        if ($this->getHttpCallBack() != null) {
+            $this->getHttpCallBack()->callOnBeforeRequest($_httpRequest);
+        }
+
+        //and invoke the API call request to fetch the response
+        $response = Request::post($_queryUrl, $_headers, Request\Body::Json($body));
+
+        $_httpResponse = new HttpResponse($response->code, $response->headers, $response->raw_body);
+        $_httpContext = new HttpContext($_httpRequest, $_httpResponse);
+
+        //call on-after Http callback
+        if ($this->getHttpCallBack() != null) {
+            $this->getHttpCallBack()->callOnAfterRequest($_httpContext);
+        }
+
+        //handle errors defined at the API level
+        $this->validateResponse($_httpResponse, $_httpContext);
+
+        return $response->body;
     }
 }

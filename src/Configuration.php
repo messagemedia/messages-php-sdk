@@ -2,6 +2,7 @@
 /*
  * MessageMediaMessages
  *
+ * This file was automatically generated for MessageMedia by APIMATIC v2.0 ( https://apimatic.io ).
  */
 
 namespace MessageMediaMessagesLib;
@@ -29,16 +30,4 @@ class Configuration
      * @var string
      */
     public static $basicAuthPassword = 'TODO: Replace';
-
-    /**
-     * The username to use with HMAC authentication
-     * @var string
-     */
-    public static $hmacAuthUserName = null;
-
-    /**
-     * The password to use with HMAC authentication
-     * @var string
-     */
-    public static $hmacAuthPassword = null;
 }

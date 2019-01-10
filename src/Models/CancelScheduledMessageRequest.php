@@ -2,6 +2,7 @@
 /*
  * MessageMediaMessages
  *
+ * This file was automatically generated for MessageMedia by APIMATIC v2.0 ( https://apimatic.io ).
  */
 
 namespace MessageMediaMessagesLib\Models;
@@ -26,8 +27,14 @@ class CancelScheduledMessageRequest implements JsonSerializable
      */
     public function __construct()
     {
-        if (1 == func_num_args()) {
-            $this->status = func_get_arg(0);
+        switch (func_num_args()) {
+            case 1:
+                $this->status = func_get_arg(0);
+                break;
+
+            default:
+                $this->status = 'cancelled';
+                break;
         }
     }
 
