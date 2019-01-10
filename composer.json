@@ -3,13 +3,13 @@
     "type": "library",
     "description": "The MessageMedia Messages API provides a number of endpoints for building powerful two-way messaging applications.",
     "keywords": ["Messages","API","SDK"],
-    "homepage": "developers.messagemedia.com",
+    "homepage": "https://developers.messagemedia.com",
     "license": "Apache-2.0",
     "authors": [
         {
             "name": "MessageMedia Developers",
             "email": "developers@messagemedia.com",
-            "homepage": "developers.messagemedia.com"
+            "homepage": "https://developers.messagemedia.com"
         }
     ],
     "require": {
