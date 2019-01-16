@@ -24,7 +24,7 @@ The MessageMedia Messages API provides a number of endpoints for building powerf
 
 Authentication is done via API keys. Sign up at https://developers.messagemedia.com/register/ to get your API keys.
 
-Requests are authenticated using HTTP Basic Auth or HMAC. For Basic Auth, your API key will be basicAuthUserName and API secret will be basicAuthPassword. For HMAC, your API key will be hmacAuthUserName and API secret will be hmacAuthPassword. This is demonstrated in the [Send Message example](#send-an-sms) below.
+Requests are authenticated using HTTP Basic Auth or HMAC. For Basic Auth, your API key will be basicAuthUserName and API secret will be basicAuthPassword. For HMAC, your API key will be hmacAuthUserName and API secret will be hmacAuthPassword. This is demonstrated in the [Send an SMS example](#send-an-sms) below.
 
 ## :interrobang: Errors
 
