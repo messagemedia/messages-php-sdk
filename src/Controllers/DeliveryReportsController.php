@@ -1,8 +1,4 @@
 <?php
-/*
- * MessageMediaMessages
- *
- */
 
 namespace MessageMediaMessagesLib\Controllers;
 
@@ -10,10 +6,12 @@ use MessageMediaMessagesLib\APIException;
 use MessageMediaMessagesLib\APIHelper;
 use MessageMediaMessagesLib\Configuration;
 use MessageMediaMessagesLib\Models;
+use MessageMediaMessagesLib\Exceptions;
 use MessageMediaMessagesLib\Http\HttpRequest;
 use MessageMediaMessagesLib\Http\HttpResponse;
 use MessageMediaMessagesLib\Http\HttpMethod;
 use MessageMediaMessagesLib\Http\HttpContext;
+use MessageMediaMessagesLib\AuthManager;
 use Unirest\Request;
 
 /**
@@ -35,7 +33,7 @@ class DeliveryReportsController extends BaseController
         if (null === static::$instance) {
             static::$instance = new static();
         }
-        
+
         return static::$instance;
     }
 
@@ -106,31 +104,26 @@ class DeliveryReportsController extends BaseController
      * *Note: It is recommended to use the Webhooks feature to receive reply messages rather than
      * polling the check delivery reports endpoint.*
      *
-     * @param null $accountHeaderValue TODO: type description here
      * @return mixed response from the API call
      * @throws APIException Thrown if API call fails
      */
-    public function getCheckDeliveryReports($accountHeaderValue = null)
+    public function checkDeliveryReports()
     {
-        $_requestUrl = '/v1/delivery_reports';
 
-        //the base uri for api requests
-        $_queryBuilder = Configuration::$BASEURI;
-        
         //prepare query string for API call
-        $_queryBuilder = $_queryBuilder.$_requestUrl;
+        $_queryBuilder = '/v1/delivery_reports';
 
         //validate and preprocess url
-        $_queryUrl = APIHelper::cleanUrl($_queryBuilder);
+        $_queryUrl = APIHelper::cleanUrl(Configuration::$BASEURI . $_queryBuilder);
 
         //prepare headers
         $_headers = array (
-            'user-agent'    => parent::$UserAgent,
+            'user-agent'    => BaseController::USER_AGENT,
             'Accept'        => 'application/json'
         );
 
-        $_headers = parent::addAccountHeaderTo($_headers, $accountHeaderValue);
-        $_headers = parent::addAuthorizationHeadersTo($_headers, $_requestUrl);
+        //apply auth headers
+        $_headers = AuthManager::apply($_headers, $_queryBuilder);
 
         //call on-before Http callback
         $_httpRequest = new HttpRequest(HttpMethod::GET, $_headers, $_queryUrl);
@@ -177,33 +170,31 @@ class DeliveryReportsController extends BaseController
      * Up to 100 delivery reports can be confirmed in a single confirm delivery reports request.
      *
      * @param Models\ConfirmDeliveryReportsAsReceivedRequest $body TODO: type description here
-     * @param null $accountHeaderValue TODO: type description here
      * @return mixed response from the API call
      * @throws APIException Thrown if API call fails
-     * @throws \Unirest\Exception
      */
-    public function createConfirmDeliveryReportsAsReceived($body, $accountHeaderValue = null)
-    {
-        $_requestUrl = '/v1/delivery_reports/confirmed';
-        //the base uri for api requests
-        $_queryBuilder = Configuration::$BASEURI;
+    public function confirmDeliveryReportsAsReceived(
+        $body
+    ) {
 
         //prepare query string for API call
-        $_queryBuilder = $_queryBuilder.$_requestUrl;
+        $_queryBuilder = '/v1/delivery_reports/confirmed';
 
         //validate and preprocess url
-        $_queryUrl = APIHelper::cleanUrl($_queryBuilder);
+        $_queryUrl = APIHelper::cleanUrl(Configuration::$BASEURI . $_queryBuilder);
 
         //prepare headers
         $_headers = array (
-            'user-agent'    => parent::$UserAgent,
+            'user-agent'    => BaseController::USER_AGENT,
             'Accept'        => 'application/json',
             'content-type'  => 'application/json; charset=utf-8'
         );
 
-        $jsonBody = Request\Body::Json($body);
-        $_headers = parent::addAccountHeaderTo($_headers, $accountHeaderValue);
-        $_headers = parent::addAuthorizationHeadersTo($_headers, $_requestUrl, $jsonBody);
+        //json encode body
+        $_bodyJson = Request\Body::Json($body);
+
+        //apply auth headers
+        $_headers = AuthManager::apply($_headers, $_queryBuilder, $_bodyJson);
 
         //call on-before Http callback
         $_httpRequest = new HttpRequest(HttpMethod::POST, $_headers, $_queryUrl);
@@ -212,7 +203,7 @@ class DeliveryReportsController extends BaseController
         }
 
         //and invoke the API call request to fetch the response
-        $response = Request::post($_queryUrl, $_headers, $jsonBody);
+        $response = Request::post($_queryUrl, $_headers, $_bodyJson);
 
         $_httpResponse = new HttpResponse($response->code, $response->headers, $response->raw_body);
         $_httpContext = new HttpContext($_httpRequest, $_httpResponse);
@@ -220,11 +211,6 @@ class DeliveryReportsController extends BaseController
         //call on-after Http callback
         if ($this->getHttpCallBack() != null) {
             $this->getHttpCallBack()->callOnAfterRequest($_httpContext);
-        }
-
-        //Error handling using HTTP status codes
-        if ($response->code == 400) {
-            throw new APIException('', $_httpContext);
         }
 
         //handle errors defined at the API level

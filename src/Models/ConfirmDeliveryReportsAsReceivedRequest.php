@@ -1,8 +1,4 @@
 <?php
-/*
- * MessageMediaMessages
- *
- */
 
 namespace MessageMediaMessagesLib\Models;
 

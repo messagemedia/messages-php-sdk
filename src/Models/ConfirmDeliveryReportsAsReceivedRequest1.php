@@ -1,8 +1,5 @@
 <?php
-/*
- * MessageMediaMessages
- *
- */
+
 
 namespace MessageMediaMessagesLib\Models;
 
@@ -11,24 +8,24 @@ use JsonSerializable;
 /**
  * @todo Write general description for this model
  */
-class ConfirmRepliesAsReceivedRequest8 implements JsonSerializable
+class ConfirmDeliveryReportsAsReceivedRequest1 implements JsonSerializable
 {
     /**
      * @todo Write general description for this property
      * @required
-     * @maps reply_ids
-     * @var array $replyIds public property
+     * @maps delivery_report_ids
+     * @var array $deliveryReportIds public property
      */
-    public $replyIds;
+    public $deliveryReportIds;
 
     /**
      * Constructor to set initial or default values of member properties
-     * @param array $replyIds Initialization value for $this->replyIds
+     * @param array $deliveryReportIds Initialization value for $this->deliveryReportIds
      */
     public function __construct()
     {
         if (1 == func_num_args()) {
-            $this->replyIds = func_get_arg(0);
+            $this->deliveryReportIds = func_get_arg(0);
         }
     }
 
@@ -39,7 +36,7 @@ class ConfirmRepliesAsReceivedRequest8 implements JsonSerializable
     public function jsonSerialize()
     {
         $json = array();
-        $json['reply_ids'] = $this->replyIds;
+        $json['delivery_report_ids'] = $this->deliveryReportIds;
 
         return $json;
     }
