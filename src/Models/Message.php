@@ -169,22 +169,44 @@ class Message implements JsonSerializable
     public function jsonSerialize()
     {
         $json = array();
-        $json['callback_url']             = $this->callbackUrl;
+        if ($this->callbackUrl != null){
+          $json['callback_url']           = $this->callbackUrl;
+        }
         $json['content']                  = $this->content;
         $json['destination_number']       = $this->destinationNumber;
-        $json['delivery_report']          = $this->deliveryReport;
-        $json['format']                   = $this->format;
-        $json['message_expiry_timestamp'] = isset($this->messageExpiryTimestamp) ?
+        if ($this->deliveryReport != null){
+          $json['delivery_report']        = $this->deliveryReport;
+        }
+        if ($this->format != null){
+          $json['format']                 = $this->format;
+        }
+        if ($this->messageExpiryTimestamp != null){
+          $json['message_expiry_timestamp'] = isset($this->messageExpiryTimestamp) ?
             DateTimeHelper::toRfc3339DateTime($this->messageExpiryTimestamp) : null;
-        $json['metadata']                 = $this->metadata;
+        }
+        if ($this->metadata != null){
+          $json['metadata']               = $this->metadata;
+        }
         $json['scheduled']                = isset($this->scheduled) ?
             DateTimeHelper::toRfc3339DateTime($this->scheduled) : null;
-        $json['source_number']            = $this->sourceNumber;
-        $json['source_number_type']       = $this->sourceNumberType;
-        $json['message_id']               = $this->messageId;
-        $json['status']                   = $this->status;
-        $json['media']                    = $this->media;
-        $json['subject']                  = $this->subject;
+        if ($this->sourceNumber != null){
+          $json['source_number']          = $this->sourceNumber;
+        }
+        if ($this->sourceNumberType != null){
+          $json['source_number_type']     = $this->sourceNumberType;
+        }
+        if ($this->messageId != null){
+          $json['message_id']             = $this->messageId;
+        }
+        if ($this->status != null){
+          $json['status']                 = $this->status;
+        }
+        if ($this->media != null){
+          $json['media']                  = $this->media;
+        }
+        if ($this->subject != null){
+          $json['subject']                = $this->subject;
+        }
 
         return $json;
     }

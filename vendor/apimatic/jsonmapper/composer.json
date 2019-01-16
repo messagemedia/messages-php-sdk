@@ -1,0 +1,30 @@
+{
+    "name": "apimatic/jsonmapper",
+    "description": "Map nested JSON structures onto PHP classes",
+    "license": "OSL-3.0",
+    "autoload": {
+        "psr-4": {"apimatic\\jsonmapper\\": "src/"}
+    },
+    "authors": [
+        {
+            "name": "Christian Weiske",
+            "email": "christian.weiske@netresearch.de",
+            "homepage": "http://www.netresearch.de/",
+            "role": "Developer"
+        },
+        {
+            "name": "Mehdi Jaffery",
+            "email": "mehdi.jaffery@apimatic.io",
+            "homepage": "http://apimatic.io/",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "email": "mehdi.jaffery@apimatic.io",
+        "issues": "https://github.com/apimatic/jsonmapper/issues"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.2.*",
+        "squizlabs/php_codesniffer": "~1.5"
+    }
+}

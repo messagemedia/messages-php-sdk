@@ -16,14 +16,24 @@ class MessageMediaMessagesClient
 {
     /**
      * Constructor with authentication and configuration parameters
+     * @param null $authUserName
+     * @param null $authPassword
+     * @param bool $useHmacAuthentication
      */
     public function __construct(
-        $basicAuthUserName = null,
-        $basicAuthPassword = null
+        $authUserName = null,
+        $authPassword = null,
+        $useHmacAuthentication = false
     ) {
-        Configuration::$basicAuthUserName = $basicAuthUserName ? $basicAuthUserName : Configuration::$basicAuthUserName;
-        Configuration::$basicAuthPassword = $basicAuthPassword ? $basicAuthPassword : Configuration::$basicAuthPassword;
+        if ($useHmacAuthentication) {
+            Configuration::$hmacAuthUserName = $authUserName ? $authUserName : Configuration::$hmacAuthUserName;
+            Configuration::$hmacAuthPassword = $authPassword ? $authPassword : Configuration::$hmacAuthPassword;
+        } else {
+            Configuration::$basicAuthUserName = $authUserName ? $authUserName : Configuration::$basicAuthUserName;
+            Configuration::$basicAuthPassword = $authPassword ? $authPassword : Configuration::$basicAuthPassword;
+        }
     }
+
     /**
      * Singleton access to Messages controller
      * @return Controllers\MessagesController The *Singleton* instance

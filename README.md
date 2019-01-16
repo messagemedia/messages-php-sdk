@@ -1,6 +1,6 @@
 # MessageMedia Messages PHP SDK
-[![Travis Build Status](https://api.travis-ci.org/messagemedia/messages-php-sdk.svg?branch=master)](https://travis-ci.org/messagemedia/messages-php-sdk)
 [![Pull Requests Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
+[![HitCount](http://hits.dwyl.io/messagemedia/messages-php-sdk.svg)](http://hits.dwyl.io/messagemedia/messages-php-sdk)
 [![composer](https://badge.fury.io/ph/messagemedia%2Fmessages-sdk.svg)](https://packagist.org/packages/messagemedia/messages-sdk)
 
 The MessageMedia Messages API provides a number of endpoints for building powerful two-way messaging applications.
@@ -52,7 +52,7 @@ developers@messagemedia.com
 
 #### Bug reports
 
-If you discover a problem with the SDK, we would like to know about it. You can raise an [issue](https://github.com/messagemedia/signingkeys-nodejs-sdk/issues) or send an email to: developers@messagemedia.com
+If you discover a problem with the SDK, we would like to know about it. You can raise an [issue](https://github.com/messagemedia/signingkeys-php-sdk/issues) or send an email to: developers@messagemedia.com
 
 #### Contributing
 
@@ -77,10 +77,12 @@ require_once "vendor/autoload.php";
 use MessageMediaMessagesLib\Models;
 use MessageMediaMessagesLib\Exceptions;
 
-$basicAuthUserName = 'BasicAuthUserName';
-$basicAuthPassword = 'BasicAuthPassword';
+$authUserName = 'API_KEY';
+$authPassword = 'API_SECRET';
+/* You can change this to true when the above keys are HMAC */
+$useHmacAuthentication = false;
 
-$client = new MessageMediaMessagesLib\MessageMediaMessagesClient($basicAuthUserName, $basicAuthPassword);
+$client = new MessageMediaMessagesLib\MessageMediaMessagesClient($authUserName, $authPassword, $useHmacAuthentication);
 
 $messagesController = $client->getMessages();
 
@@ -88,13 +90,12 @@ $body = new Models\SendMessagesRequest;
 $body->messages = array();
 
 $body->messages[0] = new Models\Message;
-
 $body->messages[0]->content = 'My first message';
 $body->messages[0]->destinationNumber = '+61491570156';
 
 try {
     $result = $messagesController->sendMessages($body);
-    echo $result;
+    print_r($result);
 } catch (Exceptions\SendMessages400Response $e) {
     echo 'Caught SendMessages400Response: ',  $e->getMessage(), "\n";
 } catch (MessageMediaMessagesLib\APIException $e) {
@@ -111,34 +112,35 @@ Destination numbers (`destinationNumber`) should be in the [E.164](http://en.wik
 <?php
 require_once "vendor/autoload.php";
 
-$basicAuthUserName = 'YOUR_API_KEY'; // The username to use with basic authentication
-$basicAuthPassword = 'YOUR_API_SECRET'; // The password to use with basic authentication
+use MessageMediaMessagesLib\Models;
+use MessageMediaMessagesLib\Exceptions;
 
-$client = new MessageMediaMessagesLib\MessageMediaMessagesClient($basicAuthUserName, $basicAuthPassword);
+$authUserName = 'API_KEY';
+$authPassword = 'API_SECRET';
+/* You can change this to true when the above keys are HMAC */
+$useHmacAuthentication = false;
 
-$messages = $client->getMessages();
+$client = new MessageMediaMessagesLib\MessageMediaMessagesClient($authUserName, $authPassword, $useHmacAuthentication);
 
-$bodyValue = '
-{
-   "messages":[
-     {
-        "content":"Test",
-        "destination_number":"YOUR_MOBILE_NUMBER",
-        "format": "MMS",
-        "subject": "This is an MMS message",
-        "media":["https://upload.wikimedia.org/wikipedia/commons/6/6a/L80385-flash-superhero-logo-1544.png"]
-     }
-   ]
+$messagesController = $client->getMessages();
+
+$body = new Models\SendMessagesRequest;
+$body->messages = array();
+$body->messages[0] = new Models\Message;
+$body->messages[0]->content = 'My second message';
+$body->messages[0]->destinationNumber = '+61491570156';
+$body->messages[0]->format = Models\FormatEnum::MMS;
+$body->messages[0]->media = array('https://images.pexels.com/photos/1018350/pexels-photo-1018350.jpeg?cs=srgb&dl=architecture-buildings-city-1018350.jpg');
+$body->messages[0]->subject = 'This is an MMS message';
+
+try {
+    $result = $messagesController->sendMessages($body);
+    print_r($result);
+} catch (Exceptions\SendMessages400Response $e) {
+    echo 'Caught SendMessages400Response: ',  $e->getMessage(), "\n";
+} catch (MessageMediaMessagesLib\APIException $e) {
+    echo 'Caught APIException: ',  $e->getMessage(), "\n";
 }
-';
-
-
-$body = MessageMediaMessagesLib\APIHelper::deserialize($bodyValue);
-
-
-$result = $messages->createSendMessages($body);
-}
-
 ?>
 ```
 
@@ -149,20 +151,26 @@ You can get a messsage ID from a sent message by looking at the `message_id` fro
 <?php
 require_once "vendor/autoload.php";
 
-use MessageMediaMessagesLib\MessageMediaMessagesClient;
+use MessageMediaMessagesLib\Models;
+use MessageMediaMessagesLib\Exceptions;
 
-$authUserName = 'YOUR_API_KEY'; // The API key to use with basic/HMAC authentication
-$authPassword = 'YOUR_API_SECRET'; // The API secret to use with basic/HMAC authentication
-$useHmacAuthentication = false; // Change to true if you are using HMAC keys
+$authUserName = 'API_KEY';
+$authPassword = 'API_SECRET';
+/* You can change this to true when the above keys are HMAC */
+$useHmacAuthentication = false;
 
 $client = new MessageMediaMessagesLib\MessageMediaMessagesClient($authUserName, $authPassword, $useHmacAuthentication);
 
-$messages = $client->getMessages();
+$messagesController = $client->getMessages();
 
-$messageId = 'YOUR_MESSAGE_ID'; // The message id for the message you wish to get the status for
+$messageId = '877c19ef-fa2e-4cec-827a-e1df9b5509f7';
 
-$result = $messages->getMessageStatus($messageId);
-print_r($result);
+try {
+    $result = $messagesController->getMessageStatus($messageId);
+    print_r($result);
+} catch (MessageMediaMessagesLib\APIException $e) {
+    echo 'Caught APIException: ',  $e->getMessage(), "\n";
+}
 ?>
 ```
 
@@ -173,19 +181,24 @@ You can check for replies that are sent to your messages
 <?php
 require_once "vendor/autoload.php";
 
-use MessageMediaMessagesLib\MessageMediaMessagesClient;
+use MessageMediaMessagesLib\Models;
+use MessageMediaMessagesLib\Exceptions;
 
-$authUserName = 'YOUR_API_KEY'; // The API key to use with basic/HMAC authentication
-$authPassword = 'YOUR_API_SECRET'; // The API secret to use with basic/HMAC authentication
-$useHmacAuthentication = false; // Change to true if you are using HMAC keys
+$authUserName = 'API_KEY';
+$authPassword = 'API_SECRET';
+/* You can change this to true when the above keys are HMAC */
+$useHmacAuthentication = false;
 
 $client = new MessageMediaMessagesLib\MessageMediaMessagesClient($authUserName, $authPassword, $useHmacAuthentication);
 
-$replies = $client->getReplies();
+$repliesController = $client->getReplies();
 
-
-$result = $replies->getCheckReplies();
-print_r($result);
+try {
+    $result = $repliesController->checkReplies();
+    print_r($result);
+} catch (MessageMediaMessagesLib\APIException $e) {
+    echo 'Caught APIException: ',  $e->getMessage(), "\n";
+}
 ?>
 ```
 
@@ -196,19 +209,84 @@ This endpoint allows you to check for delivery reports to inbound and outbound m
 <?php
 require_once "vendor/autoload.php";
 
-use MessageMediaMessagesLib\MessageMediaMessagesClient;
+use MessageMediaMessagesLib\Models;
+use MessageMediaMessagesLib\Exceptions;
 
-$authUserName = 'YOUR_API_KEY'; // The API key to use with basic/HMAC authentication
-$authPassword = 'YOUR_API_SECRET'; // The API secret to use with basic/HMAC authentication
-$useHmacAuthentication = false; // Change to true if you are using HMAC keys
+$authUserName = 'API_KEY';
+$authPassword = 'API_SECRET';
+/* You can change this to true when the above keys are HMAC */
+$useHmacAuthentication = false;
 
 $client = new MessageMediaMessagesLib\MessageMediaMessagesClient($authUserName, $authPassword, $useHmacAuthentication);
 
-$deliveryReports = $client->getDeliveryReports();
+$deliveryReportsController = $client->getDeliveryReports();
 
+try {
+    $result = $deliveryReportsController->checkDeliveryReports();
+    print_r($result);
+} catch (MessageMediaMessagesLib\APIException $e) {
+    echo 'Caught APIException: ',  $e->getMessage(), "\n";
+}
+?>
+```
 
-$result = $deliveryReports->getCheckDeliveryReports();
-print_r($result);
+### Confirm Delivery Reports
+This endpoint allows you to mark delivery reports as confirmed so they're no longer returned by the Check Delivery Reports function.
+
+```php
+<?php
+require_once "vendor/autoload.php";
+
+use MessageMediaMessagesLib\Models;
+use MessageMediaMessagesLib\Exceptions;
+
+$authUserName = 'API_KEY';
+$authPassword = 'API_SECRET';
+/* You can change this to true when the above keys are HMAC */
+$useHmacAuthentication = false;
+
+$client = new MessageMediaMessagesLib\MessageMediaMessagesClient($authUserName, $authPassword, $useHmacAuthentication);
+
+$deliveryReportsController = $client->getDeliveryReports();
+
+$body = new Models\ConfirmDeliveryReportsAsReceivedRequest;
+$body->deliveryReportIds = array('011dcead-6988-4ad6-a1c7-6b6c68ea628d', '3487b3fa-6586-4979-a233-2d1b095c7718', 'ba28e94b-c83d-4759-98e7-ff9c7edb87a1');
+
+try {
+    $result = $deliveryReportsController->confirmDeliveryReportsAsReceived($body);
+    print_r($result);
+} catch (MessageMediaMessagesLib\APIException $e) {
+    echo 'Caught APIException: ',  $e->getMessage(), "\n";
+}
+?>
+```
+
+###  Check credits remaining (Prepaid accounts only)
+This endpoint allows you to check for credits remaining on your prepaid account.
+
+```php
+<?php
+
+require_once "vendor/autoload.php";
+
+use MessageMediaMessagesLib\Models;
+use MessageMediaMessagesLib\Exceptions;
+
+$authUserName = 'API_KEY';
+$authPassword = 'API_SECRET';
+/* You can change this to true when the above keys are HMAC */
+$useHmacAuthentication = false;
+
+$client = new MessageMediaMessagesLib\MessageMediaMessagesClient($authUserName, $authPassword, $useHmacAuthentication);
+
+$messagesController = $client->getMessages();
+
+try {
+    $result = $messagesController->checkCreditsRemaining();
+    print_r($result);
+} catch (MessageMediaMessagesLib\APIException $e) {
+    echo 'Caught APIException: ',  $e->getMessage(), "\n";
+}
 ?>
 ```
 
