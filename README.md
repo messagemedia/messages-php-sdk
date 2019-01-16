@@ -68,7 +68,7 @@ composer require messagemedia/messages-sdk
 It's easy to get started. Simply enter the API Key and secret you obtained from the [MessageMedia Developers Portal](https://developers.messagemedia.com) into the code snippet below and a mobile number you wish to send to.
 
 ### Send an SMS
-Destination numbers (`destinationNumber`) should be in the [E.164](http://en.wikipedia.org/wiki/E.164) format. For example, `+61491570156` NOT `0491570156`. The code snippet below comprises of only the bare minimum parameters required to send a message. You can view the full list of parameters over [here](https://github.com/messagemedia/messages-php-sdk/wiki/Message-Body-Parameters). Alternatively, you can refer this code snippet with all the parameters in use.
+Destination numbers (`destinationNumber`) should be in the [E.164](http://en.wikipedia.org/wiki/E.164) format. For example, `+61491570156` NOT `0491570156`. The code snippet below comprises of only the bare minimum parameters required to send a message. You can view the full list of parameters over [here](https://github.com/messagemedia/messages-php-sdk/wiki/Message-Body-Parameters). Alternatively, you can refer [this](https://github.com/messagemedia/messages-php-sdk/blob/master/examples/sendMessage.php) code snippet with all the parameters in use.
 
 ```php
 <?php
