@@ -1,17 +1,16 @@
 {
     "name": "messagemedia/messages-sdk",
     "type": "library",
+    "version": "2.0.0",
     "description": "The MessageMedia Messages API provides a number of endpoints for building powerful two-way messaging applications.",
-    "version": "2.0",
     "keywords": ["Messages","API","SDK"],
-    "homepage": "https://developers.messagemedia.com/",
+    "homepage": "https://developers.messagemedia.com",
     "license": "Apache-2.0",
     "authors": [
         {
             "name": "MessageMedia Developers",
             "email": "developers@messagemedia.com",
-            "homepage": "https://developers.messagemedia.com/",
-            "role": "Developer Relations"
+            "homepage": "https://developers.messagemedia.com"
         }
     ],
     "support": {
@@ -30,9 +29,7 @@
         "apimatic/jsonmapper": "~1.3.0"
     },
     "require-dev": {
-        "squizlabs/php_codesniffer": "^2.7",
-        "phpunit/phpunit": "4.8.*"
-
+        "squizlabs/php_codesniffer": "^2.7"
     },
     "autoload": {
         "psr-4": {

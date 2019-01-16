@@ -1,8 +1,4 @@
 <?php
-/*
- * MessageMediaMessages
- *
- */
 
 namespace MessageMediaMessagesLib\Models;
 
@@ -14,9 +10,8 @@ use JsonSerializable;
 class CheckRepliesResponse implements JsonSerializable
 {
     /**
-     * @todo Write general description for this property
-     * @required
-     * @var array $replies public property
+     * The oldest 100 unconfirmed replies
+     * @var \MessageMediaMessagesLib\Models\Reply[]|null $replies public property
      */
     public $replies;
 

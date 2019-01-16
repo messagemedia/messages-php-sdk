@@ -1,8 +1,4 @@
 <?php
-/*
- * MessageMediaMessages
- *
- */
 
 namespace MessageMediaMessagesLib\Http;
 
@@ -16,4 +12,5 @@ class HttpMethod
     const PUT = "Put";
     const PATCH = "Patch";
     const DELETE = "Delete";
+    const HEAD = "Head";
 }

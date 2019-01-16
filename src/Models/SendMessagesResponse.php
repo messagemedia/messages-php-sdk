@@ -1,8 +1,4 @@
 <?php
-/*
- * MessageMediaMessages
- *
- */
 
 namespace MessageMediaMessagesLib\Models;
 
@@ -15,8 +11,7 @@ class SendMessagesResponse implements JsonSerializable
 {
     /**
      * @todo Write general description for this property
-     * @required
-     * @var array $messages public property
+     * @var \MessageMediaMessagesLib\Models\Message[]|null $messages public property
      */
     public $messages;
 

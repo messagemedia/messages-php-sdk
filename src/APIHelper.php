@@ -1,12 +1,10 @@
 <?php
-/*
- * MessageMediaMessages
- *
- */
+
 
 namespace MessageMediaMessagesLib;
 
 use InvalidArgumentException;
+use JsonSerializable;
 
 /**
  * API utility class
@@ -32,7 +30,7 @@ class APIHelper
 
         //iterate and append parameters
         foreach ($parameters as $key => $value) {
-            $replaceValue = null;
+            $replaceValue = '';
 
             //load parameter value
             if (is_null($value)) {
@@ -102,52 +100,11 @@ class APIHelper
     }
 
     /**
-     * Encode multidimentional arrays for sending as post field in CURL
-     *
-     * Will handle files as well as models if found in the $data.
-     *
-     * @source https://bugs.php.net/patch-display.php?bug_id=67477&patch=add-http_build_query_develop-function&revision=latest
-     *
-     * @param  array $data Input data to be encoded
-     * @return array       Encoded data
-     */
-    public static function httpBuildQueryDevelop($data)
-    {
-        // if not array, $data is okay
-        if (!is_array($data)) {
-            return $data;
-        }
-
-        foreach ($data as $key => $val) {
-            if (is_array($val)) {
-                foreach ($val as $k => $v) {
-                    if (is_array($v)) {
-                        // flatten array and merge
-                        $data = array_merge($data, static::httpBuildQueryDevelop(array( "{$key}[{$k}]" => $v)));
-                    } elseif (is_object($v)) {
-                        // flatten object to array and merge
-                        $data = array_merge(
-                            $data,
-                            static::httpBuildQueryDevelop(array( "{$key}[{$k}]" => $v->jsonSerialize()))
-                        );
-                    } else {
-                        // does not need flattening; primitive
-                        $data["{$key}[{$k}]"] = $v;
-                    }
-                }
-                unset($data[$key]);
-            }
-        }
-        return $data;
-    }
-
-    /**
      * Deserialize a Json string
-     * @param  string $json A valid Json string
-     * @param  mixed $instance Instance of an object to map the json into
-     * @param  boolean $isArray Is the Json an object array?
+     * @param  string   $json       A valid Json string
+     * @param  mixed    $instance   Instance of an object to map the json into
+     * @param  boolean  $isArray    Is the Json an object array?
      * @return mixed                Decoded Json
-     * @throws \apimatic\jsonmapper\JsonMapperException
      */
     public static function deserialize($json, $instance = null, $isArray = false)
     {
@@ -161,5 +118,49 @@ class APIHelper
                 return $mapper->map(json_decode($json), $instance);
             }
         }
+    }
+
+    /**
+     * Check if an array isAssociative (has string keys)
+     * @param  array  $array  A valid array
+     * @return boolean        True if the array is Associative, false if it is Indexed
+     */
+    private static function isAssociative($arr)
+    {
+        foreach ($arr as $key => $value) {
+            if (is_string($key)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Prepare a model for form encoding
+     * @param  JsonSerializable  $model  A valid instance of JsonSerializable
+     * @return array                     The model as a map of key value pairs
+     */
+    public static function prepareFormFields($model)
+    {
+        if (!$model instanceof JsonSerializable) {
+            return $model;
+        }
+
+        $arr = $model->jsonSerialize();
+
+        foreach ($model as $key => $value) {
+            if ($value instanceof JsonSerializable) {
+                $arr[$key] = static::prepareFormFields($model->$key);
+            } elseif (is_array($value) && !empty($value) && !static::isAssociative($value) &&
+                $value[0] instanceof JsonSerializable) {
+                $temp = array();
+                foreach ($value as $k => $v) {
+                    $temp[$k] = static::prepareFormFields($v);
+                }
+                $arr[$key] = $temp;
+            }
+        }
+        return $arr;
     }
 }

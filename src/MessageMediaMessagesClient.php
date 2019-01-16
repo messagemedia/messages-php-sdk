@@ -1,8 +1,4 @@
 <?php
-/*
- * MessageMediaMessages
- *
- */
 
 namespace MessageMediaMessagesLib;
 
@@ -24,13 +20,10 @@ class MessageMediaMessagesClient
         $authPassword = null,
         $useHmacAuthentication = false
     ) {
-        if($useHmacAuthentication)
-        {
+        if ($useHmacAuthentication) {
             Configuration::$hmacAuthUserName = $authUserName ? $authUserName : Configuration::$hmacAuthUserName;
             Configuration::$hmacAuthPassword = $authPassword ? $authPassword : Configuration::$hmacAuthPassword;
-        }
-        else
-        {
+        } else {
             Configuration::$basicAuthUserName = $authUserName ? $authUserName : Configuration::$basicAuthUserName;
             Configuration::$basicAuthPassword = $authPassword ? $authPassword : Configuration::$basicAuthPassword;
         }
@@ -38,7 +31,6 @@ class MessageMediaMessagesClient
 
     /**
      * Singleton access to Messages controller
-     *
      * @return Controllers\MessagesController The *Singleton* instance
      */
     public function getMessages()
@@ -47,7 +39,6 @@ class MessageMediaMessagesClient
     }
     /**
      * Singleton access to DeliveryReports controller
-     *
      * @return Controllers\DeliveryReportsController The *Singleton* instance
      */
     public function getDeliveryReports()
@@ -56,7 +47,6 @@ class MessageMediaMessagesClient
     }
     /**
      * Singleton access to Replies controller
-     *
      * @return Controllers\RepliesController The *Singleton* instance
      */
     public function getReplies()
