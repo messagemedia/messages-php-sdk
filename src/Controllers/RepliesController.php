@@ -1,9 +1,5 @@
 <?php
-/*
- * MessageMediaMessages
- *
- * This file was automatically generated for MessageMedia by APIMATIC v2.0 ( https://apimatic.io ).
- */
+
 
 namespace MessageMediaMessagesLib\Controllers;
 
@@ -38,7 +34,7 @@ class RepliesController extends BaseController
         if (null === static::$instance) {
             static::$instance = new static();
         }
-        
+
         return static::$instance;
     }
 
