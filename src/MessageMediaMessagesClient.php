@@ -11,8 +11,8 @@ class MessageMediaMessagesClient
 {
     /**
      * Constructor with authentication and configuration parameters
-     * @param null $authUserName
-     * @param null $authPassword
+     * @param string|null $authUserName
+     * @param string|null $authPassword
      * @param bool $useHmacAuthentication
      */
     public function __construct(
