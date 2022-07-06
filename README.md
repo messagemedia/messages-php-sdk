@@ -22,7 +22,7 @@ The MessageMedia Messages API provides a number of endpoints for building powerf
 
 ## :closed_lock_with_key: Authentication
 
-Authentication is done via API keys. Sign up at https://developers.messagemedia.com/register/ to get your API keys.
+Authentication is done via API keys. Sign up at https://hub.messagemedia.com/register to get your API keys.
 
 Requests are authenticated using HTTP Basic Auth or HMAC. For Basic Auth, your API key will be basicAuthUserName and API secret will be basicAuthPassword. For HMAC, your API key will be hmacAuthUserName and API secret will be hmacAuthPassword. This is demonstrated in the [Send an SMS example](#send-an-sms) below.
 
@@ -42,12 +42,9 @@ Our API returns standard HTTP success or error status codes. For errors, we will
 
 ## :newspaper: Information
 
-#### Slack and Mailing List
+#### Mailing List
 
-If you have any questions, comments, or concerns, please join our Slack channel:
-https://developers.messagemedia.com/collaborate/slack/
-
-Alternatively you can email us at:
+If you have any questions, comments, or concerns, please email us at:
 developers@messagemedia.com
 
 #### Bug reports
@@ -291,7 +288,7 @@ try {
 ```
 
 ## :closed_book: API Reference Documentation
-Check out the [full API documentation](https://developers.messagemedia.com/code/messages-api-documentation/) for more detailed information.
+Check out the [full API documentation](https://support.messagemedia.com/hc/en-us/sections/4413568250639-REST-API-Documentation) for more detailed information.
 
 ## :confused: Need help?
 Please contact developer support at developers@messagemedia.com or check out the developer portal at [developers.messagemedia.com](https://developers.messagemedia.com/)
