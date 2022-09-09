@@ -1,0 +1,19 @@
+language: php
+
+sudo: false
+
+php:
+  - 7.2
+  - 7.3
+  - 7.4
+
+before_install:
+  - travis_retry composer self-update
+
+install:
+  - travis_retry composer install --no-interaction --prefer-dist
+
+script: 
+  - composer run test
+  - composer run lint
+  - composer run analyze

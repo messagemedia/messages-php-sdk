@@ -1,39 +1,50 @@
 {
-    "name": "messagemedia/messages-sdk",
+    "name": "apimatic/messages",
+    "description": "TODO: Add a description",
     "type": "library",
-    "version": "2.0.0",
-    "description": "The MessageMedia Messages API provides a number of endpoints for building powerful two-way messaging applications.",
-    "keywords": ["Messages","API","SDK"],
-    "homepage": "https://developers.messagemedia.com",
-    "license": "Apache-2.0",
+    "keywords": [
+        "Messages",
+        "API",
+        "SDK"
+    ],
+    "homepage": "https://www.apimatic.io",
+    "license": "MIT",
     "authors": [
         {
-            "name": "MessageMedia Developers",
-            "email": "developers@messagemedia.com",
-            "homepage": "https://developers.messagemedia.com"
+            "name": "APIMatic Code Generator",
+            "email": "support@apimatic.io",
+            "homepage": "https://www.apimatic.io",
+            "role": "API Tool"
         }
     ],
-    "support": {
-        "email": "developers@messagemedia.com",
-        "issues": "https://github.com/messagemedia/messages-php-sdk/issues",
-        "wiki": "https://github.com/messagemedia/messages-php-sdk/wiki",
-        "source": "https://github.com/messagemedia/messages-php-sdk",
-        "docs": "https://developers.messagemedia.com/code"
-    },
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=7.2 <8.2",
         "ext-curl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "mashape/unirest-php": "~3.0.1",
-        "apimatic/jsonmapper": "~1.3.0"
+        "apimatic/unirest-php": "^3.0.1",
+        "apimatic/jsonmapper": "^3.0.4"
     },
     "require-dev": {
-        "squizlabs/php_codesniffer": "^2.7"
+        "squizlabs/php_codesniffer": "^3.5",
+        "phan/phan": "5.3.1",
+        "phpunit/phpunit": "^7.5 || ^8.5"
     },
     "autoload": {
         "psr-4": {
-            "MessageMediaMessagesLib\\": "src/"
+            "MessagesLib\\": "src/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MessagesLib\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "test-coverage": "phpunit --coverage-html=coverage",
+        "lint": "phpcs --standard=phpcs-ruleset.xml src/",
+        "lint-fix": "phpcbf --standard=phpcs-ruleset.xml src/",
+        "analyze": "phan --allow-polyfill-parser"
     }
 }
