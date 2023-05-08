@@ -1,7 +1,7 @@
 {
     "name": "messagemedia/messages-sdk",
     "type": "library",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "description": "The MessageMedia Messages API provides a number of endpoints for building powerful two-way messaging applications.",
     "keywords": ["Messages","API","SDK"],
     "homepage": "https://developers.messagemedia.com",
@@ -26,7 +26,7 @@
         "ext-json": "*",
         "ext-mbstring": "*",
         "mashape/unirest-php": "~3.0.1",
-        "apimatic/jsonmapper": "~1.3.0"
+        "apimatic/jsonmapper": ">=1.3.0"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^2.7"
